@@ -23,7 +23,7 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth" data-lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +41,40 @@ const {
   <meta name="twitter:image" content={ogImage} />
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  
+  <!-- Script de detección de idioma (ejecuta antes del render) -->
+  <script is:inline>
+    (function() {
+      function detectBrowserLanguage() {
+        var browserLang = navigator.language || navigator.userLanguage || 'es';
+        var langCode = browserLang.toLowerCase();
+        if (langCode.startsWith('pt')) return 'pt';
+        if (langCode.startsWith('en')) return 'en';
+        return 'es';
+      }
+      
+      function getStoredLanguage() {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var c = cookies[i].trim();
+          if (c.startsWith('alana-lang=')) {
+            var value = c.split('=')[1];
+            if (value === 'es' || value === 'en' || value === 'pt') return value;
+          }
+        }
+        return detectBrowserLanguage();
+      }
+      
+      var lang = getStoredLanguage();
+      document.documentElement.lang = lang;
+      document.documentElement.dataset.lang = lang;
+      
+      // Guardar en cookie si es primera visita
+      if (!document.cookie.includes('alana-lang=')) {
+        document.cookie = 'alana-lang=' + lang + '; path=/; max-age=31536000';
+      }
+    })();
+  </script>
   
   <slot name="head" />
 </head>
