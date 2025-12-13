@@ -5,22 +5,34 @@
  */
 import Icon from '@/ui/components/atoms/Icon/Icon.astro'
 
-const tiers: Array<{ action: string; reward: string; color: string; icon: any }> = [
+const tiers: Array<{ actionEs: string; actionEn: string; actionPt: string; rewardEs: string; rewardEn: string; rewardPt: string; color: string; icon: any }> = [
   {
-    action: 'Invita a 1 amiga',
-    reward: 'Gana 10% mensual (Vida)',
+    actionEs: 'Invita a 1 amiga',
+    actionEn: 'Invite 1 friend',
+    actionPt: 'Convide 1 amiga',
+    rewardEs: 'Gana 10% mensual (Vida)',
+    rewardEn: 'Earn 10% monthly (Lifetime)',
+    rewardPt: 'Ganhe 10% mensal (Vitalício)',
     color: 'gold-bright',
     icon: 'crown'
   },
   {
-    action: 'Invita a 10 amigas',
-    reward: 'Bonus $1,000 USD Cash',
+    actionEs: 'Invita a 10 amigas',
+    actionEn: 'Invite 10 friends',
+    actionPt: 'Convide 10 amigas',
+    rewardEs: 'Bonus $1,000 USD Cash',
+    rewardEn: 'Bonus $1,000 USD Cash',
+    rewardPt: 'Bônus $1,000 USD Cash',
     color: 'gold',
     icon: 'dollar'
   },
   {
-    action: '20 amigas activas',
-    reward: '~$2,500 USD / mes Pasivos',
+    actionEs: '20 amigas activas',
+    actionEn: '20 active friends',
+    actionPt: '20 amigas ativas',
+    rewardEs: '~$2,500 USD / mes Pasivos',
+    rewardEn: '~$2,500 USD / month Passive',
+    rewardPt: '~$2,500 USD / mês Passivos',
     color: 'pink',
     icon: 'trending'
   }
@@ -42,9 +54,9 @@ const tiers: Array<{ action: string; reward: string; color: string; icon: any }>
         <span class="bg-gradient-to-r from-cr-gold via-cr-pink to-cr-gold bg-clip-text text-transparent">AlanaDoll's</span>
       </h2>
       <p class="text-base md:text-lg text-cr-muted max-w-3xl mx-auto font-light leading-relaxed">
-        Tu mayor fuente de ingresos no debería estar en vender tus fotos. Tú eres la dueña del sistema.
+        <span class="i18n-text" data-i18n-es="Tu mayor fuente de ingresos no debería estar en vender tus fotos. Tú eres la dueña del sistema." data-i18n-en="Your biggest source of income shouldn't be selling your photos. You own the system." data-i18n-pt="Sua maior fonte de renda não deveria ser vender suas fotos. Você é dona do sistema.">Tu mayor fuente de ingresos no debería estar en vender tus fotos. Tú eres la dueña del sistema.</span>
         <br class="hidden md:block" />
-        Con AlanaDoll's conviertes tu red de contactos en un <span class="text-cr-gold font-medium">cajero automático de ingresos pasivos</span>!!!
+        <span class="i18n-text" data-i18n-es="Con AlanaDoll's conviertes tu red de contactos en un" data-i18n-en="With AlanaDoll's you turn your network into an" data-i18n-pt="Com AlanaDoll's você transforma sua rede em um">Con AlanaDoll's conviertes tu red de contactos en un</span> <span class="text-cr-gold font-medium i18n-text" data-i18n-es="cajero automático de ingresos pasivos" data-i18n-en="passive income ATM" data-i18n-pt="caixa eletrônico de renda passiva">cajero automático de ingresos pasivos</span>!!!
       </p>
     </div>
 
@@ -60,7 +72,7 @@ const tiers: Array<{ action: string; reward: string; color: string; icon: any }>
             </span>
           </div>
 
-          <h3 class="text-xl md:text-2xl font-serif text-center text-cr-text mb-6 md:mb-8">
+          <h3 class="text-xl md:text-2xl font-serif text-center text-cr-text mb-6 md:mb-8 i18n-text" data-i18n-es="Tu 'Exit Plan' Financiero:" data-i18n-en="Your Financial 'Exit Plan':" data-i18n-pt="Seu 'Exit Plan' Financeiro:">
             Tu "Exit Plan" Financiero:
           </h3>
           
@@ -77,14 +89,14 @@ const tiers: Array<{ action: string; reward: string; color: string; icon: any }>
                     tier.color === 'gold' ? 'text-cr-gold' :
                     'text-cr-pink'
                   } />
-                  <span class="text-cr-muted text-sm md:text-base">{tier.action}</span>
+                  <span class="text-cr-muted text-sm md:text-base i18n-text" data-i18n-es={tier.actionEs} data-i18n-en={tier.actionEn} data-i18n-pt={tier.actionPt}>{tier.actionEs}</span>
                 </div>
-                <span class={`text-sm md:text-base font-bold ${
+                <span class={`text-sm md:text-base font-bold i18n-text ${
                   tier.color === 'gold-bright' ? 'gold-bright-text' :
                   tier.color === 'gold' ? 'text-cr-gold' :
                   'text-cr-pink'
-                }`}>
-                  {tier.reward}
+                }`} data-i18n-es={tier.rewardEs} data-i18n-en={tier.rewardEn} data-i18n-pt={tier.rewardPt}>
+                  {tier.rewardEs}
                 </span>
               </div>
             ))}
@@ -93,15 +105,15 @@ const tiers: Array<{ action: string; reward: string; color: string; icon: any }>
           <!-- Testimonial -->
           <div class="bg-cr-base/30 border border-cr-lavender/10 rounded-xl p-4 md:p-6 mb-6">
             <p class="text-cr-muted text-sm italic leading-relaxed text-center">
-              "Dejé de modelar 10 horas al día. Ahora solo refiero amigas al sistema y gano más."
+              <span class="i18n-text" data-i18n-es="'Dejé de modelar 10 horas al día. Ahora solo refiero amigas al sistema y gano más.'" data-i18n-en="'I stopped modeling 10 hours a day. Now I just refer friends to the system and earn more.'" data-i18n-pt="'Parei de modelar 10 horas por dia. Agora só indico amigas pro sistema e ganho mais.'">"Dejé de modelar 10 horas al día. Ahora solo refiero amigas al sistema y gano más."</span>
               <br />
-              <span class="text-cr-lavender not-italic font-medium mt-2 inline-block">- Sofia, Miembro Fundadora.</span>
+              <span class="text-cr-lavender not-italic font-medium mt-2 inline-block i18n-text" data-i18n-es="- Sofia, Miembro Fundadora." data-i18n-en="- Sofia, Founding Member." data-i18n-pt="- Sofia, Membro Fundadora.">- Sofia, Miembro Fundadora.</span>
             </p>
           </div>
 
           <!-- Included Badge -->
           <div class="flex justify-center">
-            <span class="gold-bright-btn px-6 py-2 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg">
+            <span class="gold-bright-btn px-6 py-2 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg i18n-text" data-i18n-es="Incluido en tu membresía" data-i18n-en="Included in your membership" data-i18n-pt="Incluído na sua assinatura">
               Incluido en tu membresía
             </span>
           </div>

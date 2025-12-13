@@ -15,12 +15,12 @@ const {
   calLink = 'https://cal.com/tu-link-de-demo'
 } = Astro.props
 
-const benefits: Array<{ text: string; value: string; icon: any; highlight?: boolean }> = [
-  { text: 'Setup Técnico incluido', value: '$97 value', icon: 'cpu' },
-  { text: 'Garantía "Alana Pays You"', value: 'Si no funciona, te pago', icon: 'dollar' },
-  { text: 'Acceso al Syndicate', value: 'Programa de referidos', icon: 'crown', highlight: true },
-  { text: 'Soporte VIP 24/7', value: 'Respuesta en <2h', icon: 'chat' },
-  { text: 'Actualizaciones gratuitas', value: 'De por vida', icon: 'zap' }
+const benefits: Array<{ textEs: string; textEn: string; textPt: string; icon: any; highlight?: boolean }> = [
+  { textEs: 'Setup Técnico incluido', textEn: 'Technical Setup included', textPt: 'Setup Técnico incluído', icon: 'cpu' },
+  { textEs: 'Garantía "Alana Pays You"', textEn: '"Alana Pays You" Guarantee', textPt: 'Garantia "Alana Paga Você"', icon: 'dollar' },
+  { textEs: 'Acceso al Syndicate', textEn: 'Syndicate Access', textPt: 'Acesso ao Syndicate', icon: 'crown', highlight: true },
+  { textEs: 'Soporte VIP 24/7', textEn: 'VIP Support 24/7', textPt: 'Suporte VIP 24/7', icon: 'chat' },
+  { textEs: 'Actualizaciones gratuitas', textEn: 'Free updates', textPt: 'Atualizações gratuitas', icon: 'zap' }
 ]
 ---
 
@@ -29,8 +29,8 @@ const benefits: Array<{ text: string; value: string; icon: any; highlight?: bool
     <!-- Header -->
     <div class="text-center mb-6 md:mb-8 animate-on-scroll">
       <h2 class="text-xl md:text-3xl lg:text-4xl font-serif mb-2">
-        <span class="text-cr-text">Tu acceso </span>
-        <span class="bg-gradient-to-r from-cr-pink via-cr-lavender to-cr-purple bg-clip-text text-transparent">privilegiado</span>
+        <span class="text-cr-text i18n-text" data-i18n-es="Tu acceso " data-i18n-en="Your " data-i18n-pt="Seu acesso ">Tu acceso </span>
+        <span class="bg-gradient-to-r from-cr-pink via-cr-lavender to-cr-purple bg-clip-text text-transparent i18n-text" data-i18n-es="privilegiado" data-i18n-en="exclusive access" data-i18n-pt="privilegiado">privilegiado</span>
       </h2>
     </div>
 
@@ -44,21 +44,21 @@ const benefits: Array<{ text: string; value: string; icon: any; highlight?: bool
         <div class="relative glass-card p-4 md:p-6 lg:p-8 text-center">
           <!-- Badge -->
           <div class="absolute -top-4 left-1/2 -translate-x-1/2">
-            <span class="bg-gradient-to-r from-cr-pink to-cr-purple text-white px-6 py-2 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg">
+            <span class="bg-gradient-to-r from-cr-pink to-cr-purple text-white px-6 py-2 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg i18n-text" data-i18n-es="Beca de Validación" data-i18n-en="Validation Grant" data-i18n-pt="Bolsa de Validação">
               Beca de Validación
             </span>
           </div>
 
           <h3 class="text-lg md:text-xl font-serif text-cr-text mt-3 mb-1">The Growth Grant</h3>
-          <p class="text-cr-muted text-xs md:text-sm mb-4">Para Creadoras Top Tier</p>
+          <p class="text-cr-muted text-xs md:text-sm mb-4 i18n-text" data-i18n-es="Para Creadoras Top Tier" data-i18n-en="For Top Tier Creators" data-i18n-pt="Para Criadoras Top Tier">Para Creadoras Top Tier</p>
           
           <!-- Price -->
           <div class="mb-1">
             <span class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cr-pink to-cr-purple bg-clip-text text-transparent">$222</span>
-            <span class="text-cr-muted text-sm ml-1">/ mes 1</span>
+            <span class="text-cr-muted text-sm ml-1 i18n-text" data-i18n-es="/ mes 1" data-i18n-en="/ month 1" data-i18n-pt="/ mês 1">/ mes 1</span>
           </div>
           
-          <p class="text-xs text-cr-pink font-medium mb-4">
+          <p class="text-xs text-cr-pink font-medium mb-4 i18n-text" data-i18n-es="(Precio normal: $1,500/mes por chatter humano)" data-i18n-en="(Normal price: $1,500/month for human chatter)" data-i18n-pt="(Preço normal: $1,500/mês por chatter humano)">
             (Precio normal: $1,500/mes por chatter humano)
           </p>
 
@@ -72,8 +72,8 @@ const benefits: Array<{ text: string; value: string; icon: any; highlight?: bool
               }`}>
                 <Icon name={benefit.icon} size="sm" class={benefit.highlight ? 'text-cr-pink' : 'text-cr-lavender'} />
                 <div class="flex-1 min-w-0">
-                  <p class={`text-xs md:text-sm font-medium truncate ${benefit.highlight ? 'text-cr-pink' : 'text-cr-text'}`}>
-                    {benefit.text}
+                  <p class={`text-xs md:text-sm font-medium truncate i18n-text ${benefit.highlight ? 'text-cr-pink' : 'text-cr-text'}`} data-i18n-es={benefit.textEs} data-i18n-en={benefit.textEn} data-i18n-pt={benefit.textPt}>
+                    {benefit.textEs}
                   </p>
                 </div>
                 <Icon name="check" size="xs" class="text-cr-green flex-shrink-0" />
@@ -86,10 +86,10 @@ const benefits: Array<{ text: string; value: string; icon: any; highlight?: bool
             href={calLink} 
             class="block w-full py-3 md:py-3.5 bg-gradient-to-r from-cr-pink to-cr-purple text-white rounded-lg text-xs md:text-sm uppercase font-bold tracking-wider transition-all duration-300 hover:shadow-lg hover:shadow-cr-purple/40 hover:-translate-y-0.5"
           >
-            Activar Beca para {name}
+            <span class="i18n-text" data-i18n-es="Activar Beca para" data-i18n-en="Activate Grant for" data-i18n-pt="Ativar Bolsa para">Activar Beca para</span> {name}
           </a>
           
-          <p class="mt-2 text-[10px] md:text-xs text-cr-muted/70">
+          <p class="mt-2 text-[10px] md:text-xs text-cr-muted/70 i18n-text" data-i18n-es="🔒 Pago seguro • Cancela cuando quieras" data-i18n-en="🔒 Secure payment • Cancel anytime" data-i18n-pt="🔒 Pagamento seguro • Cancele quando quiser">
             🔒 Pago seguro • Cancela cuando quieras
           </p>
         </div>
@@ -100,15 +100,15 @@ const benefits: Array<{ text: string; value: string; icon: any; highlight?: bool
     <div class="flex flex-wrap justify-center gap-4 md:gap-6 mt-6 md:mt-8 animate-on-scroll" data-delay="200">
       <div class="flex items-center gap-1.5 text-cr-muted text-xs">
         <Icon name="check" size="xs" class="text-cr-green" />
-        <span>Sin contratos</span>
+        <span class="i18n-text" data-i18n-es="Sin contratos" data-i18n-en="No contracts" data-i18n-pt="Sem contratos">Sin contratos</span>
       </div>
       <div class="flex items-center gap-1.5 text-cr-muted text-xs">
         <Icon name="shield" size="xs" class="text-cr-green" />
-        <span>Garantía 30 días</span>
+        <span class="i18n-text" data-i18n-es="Garantía 30 días" data-i18n-en="30-day guarantee" data-i18n-pt="Garantia 30 dias">Garantía 30 días</span>
       </div>
       <div class="flex items-center gap-1.5 text-cr-muted text-xs">
         <Icon name="chat" size="xs" class="text-cr-green" />
-        <span>Soporte 24/7</span>
+        <span class="i18n-text" data-i18n-es="Soporte 24/7" data-i18n-en="24/7 Support" data-i18n-pt="Suporte 24/7">Soporte 24/7</span>
       </div>
     </div>
   </div>

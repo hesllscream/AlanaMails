@@ -13,23 +13,39 @@ const { name = '[NOMBRE]' } = Astro.props
 
 const auditStats = [
   {
-    label: '¿Cuánto tardas en responder DMs?',
-    value: '~4 horas (Tus fans se enfrían, bb 🥶)',
+    labelEs: '¿Cuánto tardas en responder DMs?',
+    labelEn: 'How long do you take to respond to DMs?',
+    labelPt: 'Quanto tempo você demora para responder DMs?',
+    valueEs: '~4 horas (Tus fans se enfrían, bb 🥶)',
+    valueEn: '~4 hours (Your fans go cold, bb 🥶)',
+    valuePt: '~4 horas (Seus fãs esfriam, bb 🥶)',
     isRedFlag: true
   },
   {
-    label: '¿Quién atiende mientras duermes?',
-    value: 'Nadie (El dinero ama la velocidad 24/7)',
+    labelEs: '¿Quién atiende mientras duermes?',
+    labelEn: 'Who responds while you sleep?',
+    labelPt: 'Quem atende enquanto você dorme?',
+    valueEs: 'Nadie (El dinero ama la velocidad 24/7)',
+    valueEn: 'No one (Money loves speed 24/7)',
+    valuePt: 'Ninguém (O dinheiro ama velocidade 24/7)',
     isRedFlag: true
   },
   {
-    label: 'Dinero dejado en la mesa:',
-    value: '~$2,400 USD (Literal un viaje a Tulum perdido ✈)',
+    labelEs: 'Dinero dejado en la mesa:',
+    labelEn: 'Money left on the table:',
+    labelPt: 'Dinheiro deixado na mesa:',
+    valueEs: '~$2,400 USD (Literal un viaje a Tulum perdido ✈)',
+    valueEn: '~$2,400 USD (Literally a trip to Tulum lost ✈)',
+    valuePt: '~$2,400 USD (Literalmente uma viagem a Tulum perdida ✈)',
     isRedFlag: true
   },
   {
-    label: 'Tu método actual:',
-    value: '"Hacerlo todo yo sola" (Agotador y poco chic)',
+    labelEs: 'Tu método actual:',
+    labelEn: 'Your current method:',
+    labelPt: 'Seu método atual:',
+    valueEs: '"Hacerlo todo yo sola" (Agotador y poco chic)',
+    valueEn: '"Do it all myself" (Exhausting and not chic)',
+    valuePt: '"Fazer tudo sozinha" (Exaustivo e sem charme)',
     isRedFlag: false
   }
 ]
@@ -40,14 +56,14 @@ const auditStats = [
     <!-- Header -->
     <div class="text-center mb-10 md:mb-14 animate-on-scroll">
       <h2 class="text-2xl md:text-4xl lg:text-5xl font-serif mb-4">
-        <span class="text-cr-text">El "Reality Check" de </span>
+        <span class="text-cr-text i18n-text" data-i18n-es="El 'Reality Check' de " data-i18n-en="The 'Reality Check' for " data-i18n-pt="O 'Reality Check' de ">El "Reality Check" de </span>
         <span class="bg-gradient-to-r from-cr-pink via-cr-lavender to-cr-purple bg-clip-text text-transparent">{name}</span>
       </h2>
     </div>
 
     <!-- Glass Card -->
     <div class="glass-card p-6 md:p-10 lg:p-12 max-w-4xl mx-auto animate-on-scroll" data-delay="100">
-      <h3 class="text-xl md:text-2xl font-serif text-cr-pink mb-6 md:mb-8 text-center">
+      <h3 class="text-xl md:text-2xl font-serif text-cr-pink mb-6 md:mb-8 text-center i18n-text" data-i18n-es="Amiga, los números no mienten (pero tu ex sí):" data-i18n-en="Girl, numbers don't lie (but your ex does):" data-i18n-pt="Amiga, os números não mentem (mas seu ex sim):">
         Amiga, los números no mienten (pero tu ex sí):
       </h3>
       
@@ -60,10 +76,10 @@ const auditStats = [
           >
             <div class="flex items-center gap-3 flex-1">
               <span class={`w-2 h-2 rounded-full flex-shrink-0 ${stat.isRedFlag ? 'bg-cr-pink animate-pulse' : 'bg-cr-purple'}`}></span>
-              <span class="text-cr-muted text-sm md:text-base">{stat.label}</span>
+              <span class="text-cr-muted text-sm md:text-base i18n-text" data-i18n-es={stat.labelEs} data-i18n-en={stat.labelEn} data-i18n-pt={stat.labelPt}>{stat.labelEs}</span>
             </div>
-            <span class={`text-sm md:text-base font-medium ${stat.isRedFlag ? 'text-cr-pink' : 'text-cr-lavender'}`}>
-              {stat.value}
+            <span class={`text-sm md:text-base font-medium i18n-text ${stat.isRedFlag ? 'text-cr-pink' : 'text-cr-lavender'}`} data-i18n-es={stat.valueEs} data-i18n-en={stat.valueEn} data-i18n-pt={stat.valuePt}>
+              {stat.valueEs}
             </span>
           </div>
         ))}
@@ -71,10 +87,10 @@ const auditStats = [
 
       <!-- Fix Box -->
       <div class="bg-gradient-to-r from-cr-pink/10 via-cr-purple/10 to-cr-pink/10 border border-cr-lavender/20 rounded-xl p-6 md:p-8 text-center">
-        <p class="text-xs uppercase tracking-widest text-cr-lavender mb-2">El Fix Definitivo:</p>
+        <p class="text-xs uppercase tracking-widest text-cr-lavender mb-2 i18n-text" data-i18n-es="El Fix Definitivo:" data-i18n-en="The Definitive Fix:" data-i18n-pt="A Solução Definitiva:">El Fix Definitivo:</p>
         <p class="text-lg md:text-xl font-serif text-cr-text">
-          No necesitas trabajar más duro amiga, 
-          <span class="bg-gradient-to-r from-cr-pink to-cr-purple bg-clip-text text-transparent font-semibold">necesitas clonarte!</span> ✨
+          <span class="i18n-text" data-i18n-es="No necesitas trabajar más duro amiga," data-i18n-en="You don't need to work harder girl," data-i18n-pt="Você não precisa trabalhar mais duro amiga,">No necesitas trabajar más duro amiga,</span> 
+          <span class="bg-gradient-to-r from-cr-pink to-cr-purple bg-clip-text text-transparent font-semibold i18n-text" data-i18n-es="necesitas clonarte! ✨" data-i18n-en="you need to clone yourself! ✨" data-i18n-pt="você precisa se clonar! ✨">necesitas clonarte!</span> ✨
         </p>
       </div>
     </div>

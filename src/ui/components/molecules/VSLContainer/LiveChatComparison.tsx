@@ -405,7 +405,7 @@ export default function LiveChatComparison() {
           <div class="phone-notch"></div>
           <div class="chat-header chat-header-muted">
             <span class="header-icon">😴</span>
-            <span>Sin Alana (Tú dormida)</span>
+            <span class="i18n-text" data-i18n-es="Sin Alana (Tú dormida)" data-i18n-en="Without Alana (You sleeping)" data-i18n-pt="Sem Alana (Você dormindo)">Sin Alana (Tú dormida)</span>
           </div>
           <div class="chat-messages">
             <div class="msg msg-them">
@@ -422,7 +422,7 @@ export default function LiveChatComparison() {
             </div>
           </div>
           <div class="status-result">
-            <span class="status-badge status-lost">❌ Venta Perdida ($0)</span>
+            <span class="status-badge status-lost i18n-text" data-i18n-es="❌ Venta Perdida ($0)" data-i18n-en="❌ Lost Sale ($0)" data-i18n-pt="❌ Venda Perdida ($0)">❌ Venta Perdida ($0)</span>
           </div>
         </div>
 
@@ -431,7 +431,7 @@ export default function LiveChatComparison() {
           <div class="phone-notch phone-notch-active"></div>
           <div class="chat-header chat-header-active">
             <span class="header-icon">🤖</span>
-            <span>Con Alana (IA Activa)</span>
+            <span class="i18n-text" data-i18n-es="Con Alana (IA Activa)" data-i18n-en="With Alana (AI Active)" data-i18n-pt="Com Alana (IA Ativa)">Con Alana (IA Activa)</span>
             <span class="live-indicator"></span>
           </div>
           <div class="chat-messages">
@@ -458,7 +458,7 @@ export default function LiveChatComparison() {
           <div class="status-result">
             <Show when={showSuccess()} fallback={<div class="status-placeholder"></div>}>
               <span class="status-badge status-won animate-msg">
-                ✅ Venta Cerrada ({conversations[currentConv()].sale})
+                <span class="i18n-text" data-i18n-es="✅ Venta Cerrada" data-i18n-en="✅ Sale Closed" data-i18n-pt="✅ Venda Fechada">✅ Venta Cerrada</span> ({conversations[currentConv()].sale})
               </span>
             </Show>
           </div>

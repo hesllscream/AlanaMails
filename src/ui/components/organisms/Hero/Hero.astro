@@ -22,39 +22,38 @@ const { name = '[NOMBRE]', platform = '[PLATAFORMA]' } = Astro.props
       <!-- Badge -->
       <div class="inline-flex items-center gap-2 bg-cr-card border border-cr-purple/30 px-4 py-2 rounded-full mb-6 md:mb-8 animate-fade-in-up transition-all duration-300 hover:border-cr-pink/50 hover:bg-cr-pink/10">
         <span class="w-2 h-2 bg-cr-pink rounded-full animate-pulse"></span>
-        <span class="text-xs uppercase tracking-widest text-cr-lavender font-medium">Solo para ti reina, {name}... 👁</span>
+        <span class="text-xs uppercase tracking-widest text-cr-lavender font-medium i18n-text" data-i18n-es="Solo para ti reina..." data-i18n-en="Just for you queen..." data-i18n-pt="Só pra você rainha...">Solo para ti reina... 👁</span>
       </div>
       
       <h1 class="text-3xl md:text-5xl lg:text-6xl leading-[1.1] mb-4 md:mb-6 font-serif animate-fade-in-up delay-100">
-        <span class="text-cr-text">Hola </span>
+        <span class="text-cr-text i18n-text" data-i18n-es="Hola " data-i18n-en="Hi " data-i18n-pt="Olá ">Hola </span>
         <span class="bg-gradient-to-r from-cr-pink via-cr-lavender to-cr-purple bg-clip-text text-transparent">{name}</span>
         <span class="text-cr-text">,</span>
         <br class="hidden sm:block" />
-        <span class="text-cr-text">tu perfil de </span>
+        <span class="text-cr-text i18n-text" data-i18n-es="tu perfil de " data-i18n-en="your profile on " data-i18n-pt="seu perfil no ">tu perfil de </span>
         <span class="bg-gradient-to-r from-cr-purple via-cr-lavender to-cr-pink bg-clip-text text-transparent">{platform}</span>
         <br class="hidden sm:block" />
-        <span class="text-cr-text">tiene una </span>
-        <span class="text-cr-pink">fuga de dinero</span>
+        <span class="text-cr-text i18n-text" data-i18n-es="tiene una " data-i18n-en="has a " data-i18n-pt="tem um ">tiene una </span>
+        <span class="text-cr-pink i18n-text" data-i18n-es="fuga de dinero" data-i18n-en="money leak" data-i18n-pt="vazamento de dinheiro">fuga de dinero</span>
       </h1>
       
       <p class="text-base md:text-lg lg:text-xl text-cr-muted mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto font-light animate-fade-in-up delay-200">
-        Amiga, analicé tu cuenta hace unas horas y: tienes el tráfico y la estética perfecta, 
-        perooooo tu backend está perdiendo el <strong class="text-cr-pink font-semibold">30% de tus ventas totales!!!</strong>
+        <span class="i18n-text" data-i18n-es="Amiga, analicé tu cuenta hace unas horas y: tienes el tráfico y la estética perfecta, perooooo tu backend está perdiendo el" data-i18n-en="Girl, I analyzed your account a few hours ago and: you have the perfect traffic and aesthetics, buuuut your backend is losing" data-i18n-pt="Amiga, analisei sua conta há algumas horas e: você tem o tráfego e a estética perfeitos, maaas seu backend está perdendo">Amiga, analicé tu cuenta hace unas horas y: tienes el tráfico y la estética perfecta, perooooo tu backend está perdiendo el</span> <strong class="text-cr-pink font-semibold i18n-text" data-i18n-es="30% de tus ventas totales!!!" data-i18n-en="30% of your total sales!!!" data-i18n-pt="30% das suas vendas totais!!!">30% de tus ventas totales!!!</strong>
       </p>
 
       <!-- Stats Row -->
       <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-8 md:mb-10 animate-fade-in-up delay-300">
         <div class="text-center">
           <p class="text-2xl md:text-3xl font-serif text-cr-lavender">-30%</p>
-          <p class="text-xs text-cr-muted uppercase tracking-wider">Ventas perdidas</p>
+          <p class="text-xs text-cr-muted uppercase tracking-wider i18n-text" data-i18n-es="Ventas perdidas" data-i18n-en="Lost sales" data-i18n-pt="Vendas perdidas">Ventas perdidas</p>
         </div>
         <div class="text-center">
           <p class="text-2xl md:text-3xl font-serif text-cr-pink">~4h</p>
-          <p class="text-xs text-cr-muted uppercase tracking-wider">Respuesta DMs</p>
+          <p class="text-xs text-cr-muted uppercase tracking-wider i18n-text" data-i18n-es="Respuesta DMs" data-i18n-en="DM Response" data-i18n-pt="Resposta DMs">Respuesta DMs</p>
         </div>
         <div class="text-center">
           <p class="text-2xl md:text-3xl font-serif text-cr-purple">$2,400</p>
-          <p class="text-xs text-cr-muted uppercase tracking-wider">Dejados/mes</p>
+          <p class="text-xs text-cr-muted uppercase tracking-wider i18n-text" data-i18n-es="Dejados/mes" data-i18n-en="Left/month" data-i18n-pt="Deixados/mês">Dejados/mes</p>
         </div>
       </div>
 
@@ -73,7 +72,7 @@ const { name = '[NOMBRE]', platform = '[PLATAFORMA]' } = Astro.props
           class="group relative px-8 py-4 bg-gradient-to-r from-cr-pink to-cr-purple text-white rounded-lg text-sm uppercase font-bold tracking-wider text-center overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cr-purple/40 hover:-translate-y-0.5"
         >
           <span class="relative z-10 flex items-center justify-center gap-2">
-            ✨ Ver cómo arreglarlo
+            <span class="i18n-text" data-i18n-es="✨ Ver cómo arreglarlo" data-i18n-en="✨ See how to fix it" data-i18n-pt="✨ Ver como resolver">✨ Ver cómo arreglarlo</span>
           </span>
         </a>
         <a 
@@ -81,12 +80,12 @@ const { name = '[NOMBRE]', platform = '[PLATAFORMA]' } = Astro.props
           class="group relative px-8 py-4 border-2 border-cr-purple/30 text-cr-text rounded-lg text-sm uppercase font-bold tracking-wider flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:border-cr-pink hover:text-white hover:shadow-lg hover:shadow-cr-pink/30 hover:-translate-y-0.5"
         >
           <span class="absolute inset-0 bg-gradient-to-r from-cr-pink/0 via-cr-purple/0 to-cr-pink/0 group-hover:from-cr-pink group-hover:via-cr-purple group-hover:to-cr-pink transition-all duration-500"></span>
-          <span class="relative z-10">Ver oferta exclusiva</span>
+          <span class="relative z-10 i18n-text" data-i18n-es="Ver oferta exclusiva" data-i18n-en="See exclusive offer" data-i18n-pt="Ver oferta exclusiva">Ver oferta exclusiva</span>
           <span class="relative z-10 group-hover:translate-x-1 transition-transform duration-300">→</span>
         </a>
       </div>
       
-      <p class="mt-4 text-xs text-cr-muted/70 animate-fade-in-up delay-600">*Este enlace expira en 48 horas.</p>
+      <p class="mt-4 text-xs text-cr-muted/70 animate-fade-in-up delay-600 i18n-text" data-i18n-es="*Este enlace expira en 48 horas." data-i18n-en="*This link expires in 48 hours." data-i18n-pt="*Este link expira em 48 horas.">*Este enlace expira en 48 horas.</p>
     </div>
   </div>
 </section>

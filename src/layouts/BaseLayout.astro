@@ -7,6 +7,7 @@
 
 import '@/ui/styles/global.css'
 import StarField from '@/ui/components/atoms/StarField/StarField.astro'
+import LanguageSelector from '@/ui/components/atoms/LanguageSelector/LanguageSelector.tsx'
 
 interface Props {
   title: string
@@ -22,7 +23,7 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth" data-lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,10 +48,83 @@ const {
   <!-- Fondo de estrellas animado -->
   <StarField />
   
+  <!-- Selector de idioma en esquina superior derecha -->
+  <LanguageSelector client:load />
+
   <!-- Contenido principal -->
   <div class="relative z-10">
     <slot />
   </div>
+
+  <!-- Script de internacionalización -->
+  <script>
+    // Función para aplicar traducciones (global)
+    (window as any).applyLanguage = function(lang: 'es' | 'en' | 'pt') {
+      document.documentElement.lang = lang;
+      document.documentElement.dataset.lang = lang;
+      
+      const langKeyMap: Record<string, string> = {
+        'es': 'i18nEs',
+        'en': 'i18nEn',
+        'pt': 'i18nPt'
+      };
+      const langKey = langKeyMap[lang];
+      
+      // Actualizar todos los elementos con traducciones de texto
+      const elements = document.querySelectorAll('.i18n-text');
+      elements.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        const translation = htmlEl.dataset[langKey];
+        if (translation) {
+          htmlEl.textContent = translation;
+        }
+      });
+      
+      // Actualizar placeholders
+      const placeholderKeyMap: Record<string, string> = {
+        'es': 'i18nPlaceholderEs',
+        'en': 'i18nPlaceholderEn',
+        'pt': 'i18nPlaceholderPt'
+      };
+      const placeholderKey = placeholderKeyMap[lang];
+      const inputs = document.querySelectorAll('[data-i18n-placeholder-es], [data-i18n-placeholder-en], [data-i18n-placeholder-pt]');
+      inputs.forEach((el) => {
+        const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
+        const translation = inputEl.dataset[placeholderKey];
+        if (translation) {
+          inputEl.placeholder = translation;
+        }
+      });
+    };
+    
+    const applyLanguage = (window as any).applyLanguage;
+
+    // Detectar idioma del navegador
+    function detectBrowserLanguage(): 'es' | 'en' | 'pt' {
+      const browserLang = navigator.language || (navigator as any).userLanguage || 'es';
+      const langCode = browserLang.toLowerCase();
+      if (langCode.startsWith('pt')) return 'pt';
+      if (langCode.startsWith('en')) return 'en';
+      return 'es';
+    }
+
+    // Leer idioma de cookie o detectar del navegador
+    function getStoredLanguage(): 'es' | 'en' | 'pt' {
+      const cookies = document.cookie.split(';');
+      const langCookie = cookies.find(c => c.trim().startsWith('alana-lang='));
+      if (langCookie) {
+        const value = langCookie.split('=')[1];
+        if (value === 'es' || value === 'en' || value === 'pt') return value;
+      }
+      return detectBrowserLanguage();
+    }
+
+    // Aplicar idioma al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = getStoredLanguage();
+      applyLanguage(lang);
+    });
+  </script>
 
   <!-- Script de animaciones on-scroll -->
   <script>
