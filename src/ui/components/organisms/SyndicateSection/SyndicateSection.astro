@@ -3,25 +3,26 @@
  * SyndicateSection - Inner Circle AlanaDolls
  * Programa de referidos con estilo premium dark
  */
+import Icon from '@/ui/components/atoms/Icon/Icon.astro'
 
-const tiers = [
+const tiers: Array<{ action: string; reward: string; color: string; icon: any }> = [
   {
     action: 'Invita a 1 amiga',
     reward: 'Gana 10% mensual (Vida)',
     color: 'gold-bright',
-    icon: '👑'
+    icon: 'crown'
   },
   {
     action: 'Invita a 10 amigas',
     reward: 'Bonus $1,000 USD Cash',
     color: 'gold',
-    icon: '💰'
+    icon: 'dollar'
   },
   {
     action: '20 amigas activas',
     reward: '~$2,500 USD / mes Pasivos',
     color: 'pink',
-    icon: '🚀'
+    icon: 'trending'
   }
 ]
 ---
@@ -71,7 +72,11 @@ const tiers = [
                 data-delay={index * 100}
               >
                 <div class="flex items-center gap-3">
-                  <span class="text-xl">{tier.icon}</span>
+                  <Icon name={tier.icon} size="lg" class={
+                    tier.color === 'gold-bright' ? 'text-amber-400' :
+                    tier.color === 'gold' ? 'text-cr-gold' :
+                    'text-cr-pink'
+                  } />
                   <span class="text-cr-muted text-sm md:text-base">{tier.action}</span>
                 </div>
                 <span class={`text-sm md:text-base font-bold ${
