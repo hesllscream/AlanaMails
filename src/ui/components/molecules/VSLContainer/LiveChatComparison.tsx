@@ -212,16 +212,18 @@ const styles = `
   .chat-messages {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    min-height: 180px;
-    padding: 0.5rem;
+    gap: 0.35rem;
+    min-height: 140px;
+    max-height: 160px;
+    padding: 0.4rem;
+    overflow: hidden;
   }
 
   .msg {
-    padding: 0.75rem 1rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    line-height: 1.4;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.7rem;
+    line-height: 1.3;
     max-width: 90%;
     position: relative;
   }
@@ -232,9 +234,9 @@ const styles = `
 
   .time-tag {
     display: block;
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     opacity: 0.6;
-    margin-top: 0.375rem;
+    margin-top: 0.2rem;
   }
 
   .msg-them {
@@ -267,9 +269,9 @@ const styles = `
 
   .status-result {
     text-align: center;
-    padding: 0.75rem;
-    margin-top: 0.5rem;
-    min-height: 50px;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    min-height: 40px;
   }
 
   .status-placeholder {
@@ -278,9 +280,9 @@ const styles = `
 
   .status-badge {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 9999px;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
