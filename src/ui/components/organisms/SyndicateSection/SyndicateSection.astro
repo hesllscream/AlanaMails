@@ -1,0 +1,203 @@
+---
+/**
+ * SyndicateSection - Inner Circle AlanaDolls
+ * Programa de referidos con estilo premium dark
+ */
+
+const tiers = [
+  {
+    action: 'Invita a 1 amiga',
+    reward: 'Gana 10% mensual (Vida)',
+    color: 'gold-bright',
+    icon: '👑'
+  },
+  {
+    action: 'Invita a 10 amigas',
+    reward: 'Bonus $1,000 USD Cash',
+    color: 'gold',
+    icon: '💰'
+  },
+  {
+    action: '20 amigas activas',
+    reward: '~$2,500 USD / mes Pasivos',
+    color: 'pink',
+    icon: '🚀'
+  }
+]
+---
+
+<section class="syndicate-section py-16 md:py-24 lg:py-32 relative overflow-hidden">
+  <!-- Background negro con estrellas -->
+  <div class="absolute inset-0 syndicate-bg"></div>
+  <div class="stars-black"></div>
+  <div class="stars-black-medium"></div>
+  <div class="stars-black-large"></div>
+  
+  <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 relative z-10">
+    <!-- Header -->
+    <div class="text-center mb-10 md:mb-14 animate-on-scroll">
+      <h2 class="text-2xl md:text-4xl lg:text-5xl font-serif mb-4">
+        <span class="text-cr-text">Inner Circle </span>
+        <span class="bg-gradient-to-r from-cr-gold via-cr-pink to-cr-gold bg-clip-text text-transparent">AlanaDoll's</span>
+      </h2>
+      <p class="text-base md:text-lg text-cr-muted max-w-3xl mx-auto font-light leading-relaxed">
+        Tu mayor fuente de ingresos no debería estar en vender tus fotos. Tú eres la dueña del sistema.
+        <br class="hidden md:block" />
+        Con AlanaDoll's conviertes tu red de contactos en un <span class="text-cr-gold font-medium">cajero automático de ingresos pasivos</span>!!!
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div class="max-w-2xl mx-auto animate-on-scroll" data-delay="100">
+      <div class="relative">
+        <!-- Card sin brillo -->
+        <div class="relative syndicate-card p-6 md:p-10 lg:p-12">
+          <!-- Status Badge -->
+          <div class="flex justify-center mb-6">
+            <span class="bg-gradient-to-r from-cr-pink to-cr-purple text-white px-4 py-1.5 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg">
+              STATUS: CEO
+            </span>
+          </div>
+
+          <h3 class="text-xl md:text-2xl font-serif text-center text-cr-text mb-6 md:mb-8">
+            Tu "Exit Plan" Financiero:
+          </h3>
+          
+          <!-- Tiers -->
+          <div class="space-y-4 mb-8">
+            {tiers.map((tier, index) => (
+              <div 
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 p-4 md:p-5 rounded-xl bg-cr-base/50 border border-cr-purple/20 transition-all duration-300 hover:border-cr-gold/40"
+                data-delay={index * 100}
+              >
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">{tier.icon}</span>
+                  <span class="text-cr-muted text-sm md:text-base">{tier.action}</span>
+                </div>
+                <span class={`text-sm md:text-base font-bold ${
+                  tier.color === 'gold-bright' ? 'gold-bright-text' :
+                  tier.color === 'gold' ? 'text-cr-gold' :
+                  'text-cr-pink'
+                }`}>
+                  {tier.reward}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <!-- Testimonial -->
+          <div class="bg-cr-base/30 border border-cr-lavender/10 rounded-xl p-4 md:p-6 mb-6">
+            <p class="text-cr-muted text-sm italic leading-relaxed text-center">
+              "Dejé de modelar 10 horas al día. Ahora solo refiero amigas al sistema y gano más."
+              <br />
+              <span class="text-cr-lavender not-italic font-medium mt-2 inline-block">- Sofia, Miembro Fundadora.</span>
+            </p>
+          </div>
+
+          <!-- Included Badge -->
+          <div class="flex justify-center">
+            <span class="gold-bright-btn px-6 py-2 rounded-full text-xs uppercase font-bold tracking-wider shadow-lg">
+              Incluido en tu membresía
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .syndicate-section {
+    position: relative;
+  }
+
+  .syndicate-bg {
+    background: #000;
+  }
+
+  /* Estrellas para fondo negro */
+  .stars-black {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(1px 1px at 5% 8%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 12% 25%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 18% 12%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 32% 5%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 45% 42%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 52% 15%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 65% 8%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 72% 28%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 85% 18%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 8% 55%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 22% 52%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 35% 62%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 55% 72%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 75% 78%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 95% 68%, rgba(255,255,255,0.5), transparent);
+    animation: twinkle-black 4s ease-in-out infinite;
+  }
+
+  .stars-black-medium {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(2px 2px at 10% 15%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 40% 10%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 70% 25%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 15% 70%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 60% 75%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 90% 35%, rgba(255,255,255,0.6), transparent);
+    animation: twinkle-black 5s ease-in-out infinite 0.5s;
+  }
+
+  .stars-black-large {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(3px 3px at 20% 50%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 50% 70%, rgba(236,72,153,0.6), transparent),
+      radial-gradient(3px 3px at 80% 45%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 45% 90%, rgba(168,85,247,0.6), transparent);
+    filter: blur(0.5px);
+    animation: twinkle-black 6s ease-in-out infinite 1s;
+  }
+
+  @keyframes twinkle-black {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* Card sin efecto de brillo */
+  .syndicate-card {
+    overflow: hidden;
+    background: rgba(26, 16, 37, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(196, 181, 253, 0.15);
+    border-radius: 1.5rem;
+  }
+
+  /* Dorado brillante llamativo para el botón */
+  .gold-bright-btn {
+    background: linear-gradient(135deg, #ffd700, #ffec8b, #daa520, #ffd700);
+    color: #1a1a1a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Dorado brillante para texto */
+  .gold-bright-text {
+    background: linear-gradient(90deg, #ffd700, #ffec8b, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+  }
+</style>

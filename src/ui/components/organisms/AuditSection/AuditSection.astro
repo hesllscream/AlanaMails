@@ -1,0 +1,82 @@
+---
+/**
+ * AuditSection - Reality Check con estilo glass card premium
+ * Diseño adaptativo con sistema de espaciado responsivo
+ */
+import DynamicTag from '@/ui/components/atoms/DynamicTag/DynamicTag.astro'
+
+interface Props {
+  name?: string
+}
+
+const { name = '[NOMBRE]' } = Astro.props
+
+const auditStats = [
+  {
+    label: '¿Cuánto tardas en responder DMs?',
+    value: '~4 horas (Tus fans se enfrían, bb 🥶)',
+    isRedFlag: true
+  },
+  {
+    label: '¿Quién atiende mientras duermes?',
+    value: 'Nadie (El dinero ama la velocidad 24/7)',
+    isRedFlag: true
+  },
+  {
+    label: 'Dinero dejado en la mesa (Girl Math):',
+    value: '~$2,400 USD (Literal un viaje a Tulum perdido ✈)',
+    isRedFlag: true
+  },
+  {
+    label: 'Tu método actual:',
+    value: '"Hacerlo todo yo sola" (Agotador y poco chic)',
+    isRedFlag: false
+  }
+]
+---
+
+<section id="solucion" class="py-16 md:py-24 lg:py-32 relative">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12">
+    <!-- Header -->
+    <div class="text-center mb-10 md:mb-14 animate-on-scroll">
+      <h2 class="text-2xl md:text-4xl lg:text-5xl font-serif mb-4">
+        <span class="text-cr-text">El "Reality Check" de </span>
+        <span class="bg-gradient-to-r from-cr-pink via-cr-lavender to-cr-purple bg-clip-text text-transparent">{name}</span>
+      </h2>
+    </div>
+
+    <!-- Glass Card -->
+    <div class="glass-card p-6 md:p-10 lg:p-12 max-w-4xl mx-auto animate-on-scroll" data-delay="100">
+      <h3 class="text-xl md:text-2xl font-serif text-cr-pink mb-6 md:mb-8 text-center">
+        Amiga, los números no mienten (pero tu ex sí):
+      </h3>
+      
+      <!-- Stats Grid -->
+      <div class="space-y-4 md:space-y-6 mb-8 md:mb-10">
+        {auditStats.map((stat, index) => (
+          <div 
+            class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-4 md:p-5 rounded-xl bg-cr-base/50 border border-cr-purple/20 transition-all duration-300 hover:border-cr-pink/40 hover:bg-cr-base/70"
+            data-delay={index * 100}
+          >
+            <div class="flex items-center gap-3 flex-1">
+              <span class={`w-2 h-2 rounded-full flex-shrink-0 ${stat.isRedFlag ? 'bg-cr-pink animate-pulse' : 'bg-cr-purple'}`}></span>
+              <span class="text-cr-muted text-sm md:text-base">{stat.label}</span>
+            </div>
+            <span class={`text-sm md:text-base font-medium ${stat.isRedFlag ? 'text-cr-pink' : 'text-cr-lavender'}`}>
+              {stat.value}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Fix Box -->
+      <div class="bg-gradient-to-r from-cr-pink/10 via-cr-purple/10 to-cr-pink/10 border border-cr-lavender/20 rounded-xl p-6 md:p-8 text-center">
+        <p class="text-xs uppercase tracking-widest text-cr-lavender mb-2">El Fix Definitivo:</p>
+        <p class="text-lg md:text-xl font-serif text-cr-text">
+          No necesitas trabajar más duro amiga, 
+          <span class="bg-gradient-to-r from-cr-pink to-cr-purple bg-clip-text text-transparent font-semibold">necesitas clonarte!</span> ✨
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

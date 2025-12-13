@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<span class:list={['dynamic-tag', className]}>
+  <slot />
+</span>
+
+<style>
+  .dynamic-tag {
+    background: var(--color-pink-muted);
+    color: var(--color-accent-red);
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px dashed var(--color-accent-red);
+    font-weight: 700;
+    display: inline;
+  }
+</style>

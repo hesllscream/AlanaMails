@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<span class:list={['personal-note', className]}>
+  <slot />
+</span>
+
+<style>
+  .personal-note {
+    font-family: var(--font-script);
+    color: var(--color-accent-red);
+    font-size: 1.5rem;
+    transform: rotate(-2deg);
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+</style>

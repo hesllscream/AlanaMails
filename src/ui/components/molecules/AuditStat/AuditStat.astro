@@ -1,0 +1,61 @@
+---
+interface Props {
+  label: string
+  value: string
+  isRedFlag?: boolean
+}
+
+const { label, value, isRedFlag = false } = Astro.props
+---
+
+<div class="audit-stat">
+  <span class="stat-label">{label}</span>
+  <span class:list={['stat-value', { 'red-flag': isRedFlag }]}>{value}</span>
+</div>
+
+<style>
+  .audit-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--color-pink-light);
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+
+  .audit-stat:last-child {
+    border-bottom: none;
+  }
+
+  .stat-label {
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .stat-value {
+    font-weight: 700;
+    font-family: var(--font-body);
+    text-align: right;
+    max-width: 60%;
+  }
+
+  .red-flag {
+    color: var(--color-accent-red);
+    background: var(--color-pink-muted);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  @media (max-width: 640px) {
+    .audit-stat {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .stat-value {
+      text-align: left;
+      max-width: 100%;
+    }
+  }
+</style>

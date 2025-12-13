@@ -1,0 +1,67 @@
+---
+interface Props {
+  variant?: 'default' | 'success'
+  class?: string
+}
+
+const { variant = 'default', class: className = '' } = Astro.props
+
+const variantClasses = {
+  default: 'phone-default',
+  success: 'phone-success'
+}
+
+const classes = ['phone-mockup', variantClasses[variant], className].filter(Boolean).join(' ')
+---
+
+<div class={classes}>
+  <div class="phone-notch"></div>
+  <div class="phone-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .phone-mockup {
+    background: #000;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    margin: 0 auto 1.25rem;
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 9/16;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 4px solid #333;
+    overflow: hidden;
+  }
+
+  .phone-notch {
+    width: 40%;
+    height: 6px;
+    background: #333;
+    border-radius: 0 0 10px 10px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .phone-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  .phone-default {
+    background: #111;
+  }
+
+  .phone-success {
+    background: linear-gradient(to bottom, #111, #0a2e0a);
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+interface Props {
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'gold'
+  class?: string
+}
+
+const { variant = 'default', class: className = '' } = Astro.props
+
+const variantClasses = {
+  default: 'badge-default',
+  success: 'badge-success',
+  warning: 'badge-warning',
+  danger: 'badge-danger',
+  gold: 'badge-gold'
+}
+
+const classes = ['badge', variantClasses[variant], className].filter(Boolean).join(' ')
+---
+
+<span class={classes}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-default {
+    background: var(--color-pink-muted);
+    color: var(--color-accent-red);
+    border: 1px dashed var(--color-accent-red);
+  }
+
+  .badge-success {
+    background: rgba(0, 255, 0, 0.1);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+  }
+
+  .badge-warning {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid #fbbf24;
+  }
+
+  .badge-danger {
+    background: var(--color-pink-muted);
+    color: var(--color-accent-red);
+  }
+
+  .badge-gold {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(249, 242, 149, 0.2) 100%);
+    color: var(--color-gold);
+    border: 1px solid var(--color-gold);
+  }
+</style>

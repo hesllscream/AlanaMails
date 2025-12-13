@@ -1,0 +1,122 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'gold' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  href?: string
+  fullWidth?: boolean
+  class?: string
+}
+
+const { 
+  variant = 'primary', 
+  size = 'md', 
+  href,
+  fullWidth = false,
+  class: className = ''
+} = Astro.props
+
+const baseClasses = 'btn'
+const variantClasses = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  gold: 'btn-gold',
+  ghost: 'btn-ghost'
+}
+const sizeClasses = {
+  sm: 'btn-sm',
+  md: 'btn-md',
+  lg: 'btn-lg'
+}
+
+const classes = [
+  baseClasses,
+  variantClasses[variant],
+  sizeClasses[size],
+  fullWidth && 'btn-full',
+  className
+].filter(Boolean).join(' ')
+
+const Tag = href ? 'a' : 'button'
+---
+
+<Tag href={href} class={classes}>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    transform: translateY(-3px);
+  }
+
+  .btn:active {
+    transform: translateY(-1px);
+  }
+
+  /* Variants */
+  .btn-primary {
+    background: var(--color-accent-red);
+    color: var(--color-text-light);
+    box-shadow: 0 10px 25px rgba(217, 4, 41, 0.4);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 15px 35px rgba(217, 4, 41, 0.5);
+  }
+
+  .btn-secondary {
+    background: var(--color-pink-muted);
+    color: var(--color-accent-red);
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #d4af37 0%, #f9f295 50%, #d4af37 100%);
+    color: var(--color-bg-black);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-light);
+    border: 2px solid var(--color-pink-light);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Sizes */
+  .btn-sm {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .btn-md {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-lg {
+    padding: 1.25rem 3rem;
+    font-size: 1.125rem;
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+</style>

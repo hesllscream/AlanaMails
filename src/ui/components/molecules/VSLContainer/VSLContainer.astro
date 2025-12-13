@@ -1,0 +1,16 @@
+---
+/**
+ * VSLContainer - Comparación de mensajes Sin Alana vs Con Alana
+ * Diseño dark premium con chat dinámico animado
+ */
+import LiveChatComparison from './LiveChatComparison.tsx';
+
+interface Props {
+  title?: string
+  duration?: string
+}
+
+const { title, duration } = Astro.props
+---
+
+<LiveChatComparison client:visible />

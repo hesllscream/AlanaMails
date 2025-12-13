@@ -1,0 +1,204 @@
+---
+/**
+ * ZombieSection (Phase 2) - Fenómeno Zombie Fan
+ * FONDO NEGRO con estrellas adaptadas y cuadro central premium
+ * Diseño adaptativo con sistema de espaciado responsivo
+ */
+import PhoneMockup from '@/ui/components/molecules/PhoneMockup/PhoneMockup.astro'
+---
+
+<section class="zombie-section">
+  <!-- Fondo de estrellas negro -->
+  <div class="stars-black"></div>
+  <div class="stars-black-medium"></div>
+  <div class="stars-black-large"></div>
+  
+  <!-- Secret Stamp -->
+  <div class="absolute top-3 md:top-5 right-3 md:right-5 bg-gradient-to-r from-cr-pink to-cr-purple text-white px-3 md:px-4 py-1.5 md:py-2 transform rotate-12 font-bold shadow-lg font-mono text-[10px] md:text-xs z-20 rounded">
+    STRATEGY REVEALED
+  </div>
+  
+  <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 relative z-10">
+    <!-- Header -->
+    <div class="text-center mb-10 md:mb-14 animate-on-scroll">
+      <h2 class="text-2xl md:text-4xl lg:text-5xl font-serif mb-4">
+        <span class="text-white">El Fenómeno </span>
+        <span class="bg-gradient-to-r from-cr-pink via-white to-cr-purple bg-clip-text text-transparent">"Zombie Fan"</span>
+      </h2>
+      <p class="text-base md:text-lg text-white/70 max-w-2xl mx-auto font-light">
+        Así es como Alana encuentra dinero donde tú solo ves suscriptores inactivos.
+      </p>
+    </div>
+
+    <!-- Steps Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <!-- Step 1: Detección -->
+      <div class="step-card-black animate-on-scroll" data-delay="100">
+        <div class="phone-mockup-black">
+          <div class="flex items-center bg-white/5 p-3 rounded-lg opacity-50 mb-2">
+            <div class="w-8 h-8 bg-white/20 rounded-full mr-3 flex-shrink-0"></div>
+            <div class="flex-1">
+              <div class="h-2 bg-white/20 rounded mb-1 w-3/4"></div>
+              <div class="h-2 bg-white/10 rounded w-1/2"></div>
+            </div>
+          </div>
+          <div class="flex items-center bg-white/5 p-3 rounded-lg opacity-50">
+            <div class="w-8 h-8 bg-white/20 rounded-full mr-3 flex-shrink-0"></div>
+            <div class="flex-1">
+              <div class="h-2 bg-white/20 rounded mb-1 w-3/4"></div>
+              <div class="h-2 bg-white/10 rounded w-1/2"></div>
+            </div>
+          </div>
+          <div class="absolute top-3 right-3 bg-cr-pink text-white text-[10px] px-2 py-0.5 rounded font-bold">
+            Inactivo 20 días
+          </div>
+        </div>
+        <h3 class="text-lg md:text-xl font-serif text-cr-pink-light mt-5 mb-2">1. Detección</h3>
+        <p class="text-sm text-white/60">El sistema escanea y encuentra fans inactivos con tarjeta.</p>
+      </div>
+
+      <!-- Step 2: El Nudge -->
+      <div class="step-card-black animate-on-scroll" data-delay="200">
+        <div class="phone-mockup-black">
+          <p class="text-[10px] text-white/40 text-center mb-3">Today 9:41 PM</p>
+          <div class="bg-gradient-to-r from-cr-pink to-cr-purple text-white p-3 md:p-4 rounded-2xl rounded-br-sm text-sm leading-relaxed">
+            Soñé contigo anoche... ¿todo bien bb? 🫣✨
+          </div>
+        </div>
+        <h3 class="text-lg md:text-xl font-serif text-cr-pink-light mt-5 mb-2">2. El "Nudge"</h3>
+        <p class="text-sm text-white/60">Mensaje para "romper el hielo". Cero spam. 100% curiosidad.</p>
+      </div>
+
+      <!-- Step 3: Reactivación -->
+      <div class="step-card-black animate-on-scroll" data-delay="300">
+        <div class="phone-mockup-black phone-success">
+          <div class="text-4xl md:text-5xl text-center mb-4">🤑</div>
+          <div class="bg-white/95 text-gray-800 p-3 md:p-4 rounded-xl flex items-center gap-3 shadow-lg">
+            <span class="text-xl md:text-2xl font-bold text-indigo-600">S</span>
+            <div>
+              <p class="font-bold text-xs md:text-sm">You received a tip!</p>
+              <p class="text-[10px] md:text-xs text-gray-500">$25.00 from Fan...</p>
+            </div>
+          </div>
+        </div>
+        <h3 class="text-lg md:text-xl font-serif text-cr-pink-light mt-5 mb-2">3. Reactivación</h3>
+        <p class="text-sm text-white/60">El fan despierta. <span class="text-cr-green font-bold">+$1,200/mes promedio.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zombie-section {
+    background: #000000;
+    color: white;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 2px solid rgba(236, 72, 153, 0.3);
+    border-bottom: 2px solid rgba(236, 72, 153, 0.3);
+  }
+
+  /* Estrellas para fondo negro */
+  .stars-black {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(1px 1px at 5% 8%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 12% 25%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 18% 12%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 32% 5%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 45% 42%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 52% 15%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 65% 8%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 72% 28%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 85% 18%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 8% 55%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 22% 52%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 35% 62%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 55% 72%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 75% 78%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 95% 68%, rgba(255,255,255,0.5), transparent);
+    animation: twinkle-black 4s ease-in-out infinite;
+  }
+
+  .stars-black-medium {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(2px 2px at 10% 15%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 40% 10%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 70% 25%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 15% 70%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 60% 75%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(2px 2px at 90% 35%, rgba(255,255,255,0.6), transparent);
+    animation: twinkle-black 5s ease-in-out infinite 0.5s;
+  }
+
+  .stars-black-large {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(3px 3px at 20% 50%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 50% 70%, rgba(236,72,153,0.6), transparent),
+      radial-gradient(3px 3px at 80% 45%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(3px 3px at 45% 90%, rgba(168,85,247,0.6), transparent);
+    filter: blur(0.5px);
+    animation: twinkle-black 6s ease-in-out infinite 1s;
+  }
+
+  @keyframes twinkle-black {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* Step Cards con fondo negro */
+  .step-card-black {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .step-card-black:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(236, 72, 153, 0.3);
+    box-shadow: 0 10px 40px rgba(236, 72, 153, 0.15);
+  }
+
+  /* Phone Mockup para fondo negro */
+  .phone-mockup-black {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    position: relative;
+    min-height: 140px;
+  }
+
+  .phone-success {
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  @media (min-width: 768px) {
+    .zombie-section {
+      padding: 6rem 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .zombie-section {
+      padding: 8rem 0;
+    }
+  }
+</style>

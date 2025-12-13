@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+AlannaDolls/
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.log
