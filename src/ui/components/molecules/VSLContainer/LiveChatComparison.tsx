@@ -292,12 +292,12 @@ const styles = `
 
     .phone-without {
       transform: scale(1);
-      order: 2;
+      order: 1;
     }
 
     .phone-with {
       transform: scale(1);
-      order: 1;
+      order: 2;
     }
   }
 
