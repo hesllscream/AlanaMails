@@ -12,10 +12,10 @@ const { name = '[NOMBRE]' } = Astro.props
 const currentYear = new Date().getFullYear()
 
 const footerLinks = [
-  { label: 'Funciones', href: '#features' },
-  { label: 'Precios', href: '#pricing' },
-  { label: 'Privacidad', href: '#' },
-  { label: 'Términos', href: '#' },
+  { labelEs: 'Funciones', labelEn: 'Features', labelPt: 'Funções', href: '#features' },
+  { labelEs: 'Precios', labelEn: 'Pricing', labelPt: 'Preços', href: '#pricing' },
+  { labelEs: 'Privacidad', labelEn: 'Privacy', labelPt: 'Privacidade', href: '#' },
+  { labelEs: 'Términos', labelEn: 'Terms', labelPt: 'Termos', href: '#' },
 ]
 ---
 
@@ -31,7 +31,7 @@ const footerLinks = [
               <span class="text-cr-text">Alana</span><span class="text-cr-pink">Ai</span>
             </span>
           </div>
-          <p class="text-cr-muted font-light text-sm leading-relaxed max-w-xs mx-auto lg:mx-0 mb-6">
+          <p class="text-cr-muted font-light text-sm leading-relaxed max-w-xs mx-auto lg:mx-0 mb-6 i18n-text" data-i18n-es="El sistema administrativo con IA para creadoras de contenido que quieren escalar sin sacrificar su tiempo." data-i18n-en="The AI-powered admin system for content creators who want to scale without sacrificing their time." data-i18n-pt="O sistema administrativo com IA para criadoras de conteúdo que querem escalar sem sacrificar seu tempo.">
             El sistema administrativo con IA para creadoras de contenido que quieren escalar sin sacrificar su tiempo.
           </p>
           
@@ -55,9 +55,12 @@ const footerLinks = [
           {footerLinks.map((link) => (
             <a 
               href={link.href} 
-              class="text-cr-muted hover:text-cr-pink transition-colors duration-300 text-sm"
+              class="text-cr-muted hover:text-cr-pink transition-colors duration-300 text-sm i18n-text"
+              data-i18n-es={link.labelEs}
+              data-i18n-en={link.labelEn}
+              data-i18n-pt={link.labelPt}
             >
-              {link.label}
+              {link.labelEs}
             </a>
           ))}
         </div>
@@ -66,10 +69,10 @@ const footerLinks = [
       <!-- Bottom Bar -->
       <div class="mt-10 md:mt-14 pt-6 md:pt-8 border-t border-cr-purple/10 flex flex-col md:flex-row justify-between items-center gap-4 animate-on-scroll" data-delay="200">
         <p class="text-xs text-cr-muted">
-          Esta propuesta es privada y confidencial para <span class="text-cr-lavender">{name}</span>.
+          <span class="i18n-text" data-i18n-es="Esta propuesta es privada y confidencial para" data-i18n-en="This proposal is private and confidential for" data-i18n-pt="Esta proposta é privada e confidencial para">Esta propuesta es privada y confidencial para</span> <span class="text-cr-lavender">{name}</span>.
         </p>
         <p class="text-xs text-cr-muted">
-          © {currentYear} ALANA Systems LLC. Hecho con <span class="text-cr-pink">♥</span> para creadoras de alto nivel.
+          © {currentYear} ALANA Systems LLC. <span class="i18n-text" data-i18n-es="Hecho con" data-i18n-en="Made with" data-i18n-pt="Feito com">Hecho con</span> <span class="text-cr-pink">♥</span> <span class="i18n-text" data-i18n-es="para creadoras de alto nivel." data-i18n-en="for top-tier creators." data-i18n-pt="para criadoras de alto nível.">para creadoras de alto nivel.</span>
         </p>
       </div>
     </div>

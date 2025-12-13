@@ -11,35 +11,105 @@ interface Message {
   time?: string;
 }
 
-const conversations = [
-  {
-    fanMessage: "Hola bb, quiero verte...",
-    fanTime: "3:02 AM",
-    alanaResponse: "Mmm, justo pensaba en ti. ¿Quieres ver lo que llevo puesto? 😈",
-    alanaTime: "3:02 AM (Instantáneo)",
-    fanReply: "SÍ, manda ya.",
-    fanReplyTime: "3:03 AM",
-    sale: "$50"
-  },
-  {
-    fanMessage: "Reina, te extraño... ¿estás por ahí?",
-    fanTime: "2:15 AM",
-    alanaResponse: "Hola amor, justo pensaba en ti. ¿Quieres ver algo exclusivo?",
-    alanaTime: "2:15 AM (Instantáneo)",
-    fanReply: "Sí por favor! 🔥",
-    fanReplyTime: "2:16 AM",
-    sale: "$75"
-  },
-  {
-    fanMessage: "Hola preciosa, ¿tienes algo nuevo?",
-    fanTime: "11:30 PM",
-    alanaResponse: "Tengo algo muy especial que grabé pensando en ti... ¿Te cuento más?",
-    alanaTime: "11:30 PM (Instantáneo)",
-    fanReply: "Dale, mándalo todo!",
-    fanReplyTime: "11:31 PM",
-    sale: "$100"
+type Lang = 'es' | 'en' | 'pt';
+
+const conversationsI18n = {
+  es: [
+    {
+      fanMessage: "Hola bb, quiero verte...",
+      fanTime: "3:02 AM",
+      alanaResponse: "Mmm, justo pensaba en ti. ¿Quieres ver lo que llevo puesto? 😈",
+      alanaTime: "3:02 AM (Instantáneo)",
+      fanReply: "SÍ, manda ya.",
+      fanReplyTime: "3:03 AM",
+      sale: "$50"
+    },
+    {
+      fanMessage: "Reina, te extraño... ¿estás por ahí?",
+      fanTime: "2:15 AM",
+      alanaResponse: "Hola amor, justo pensaba en ti. ¿Quieres ver algo exclusivo?",
+      alanaTime: "2:15 AM (Instantáneo)",
+      fanReply: "Sí por favor! 🔥",
+      fanReplyTime: "2:16 AM",
+      sale: "$75"
+    },
+    {
+      fanMessage: "Hola preciosa, ¿tienes algo nuevo?",
+      fanTime: "11:30 PM",
+      alanaResponse: "Tengo algo muy especial que grabé pensando en ti... ¿Te cuento más?",
+      alanaTime: "11:30 PM (Instantáneo)",
+      fanReply: "Dale, mándalo todo!",
+      fanReplyTime: "11:31 PM",
+      sale: "$100"
+    }
+  ],
+  en: [
+    {
+      fanMessage: "Hey bb, I wanna see you...",
+      fanTime: "3:02 AM",
+      alanaResponse: "Mmm, I was just thinking about you. Wanna see what I'm wearing? 😈",
+      alanaTime: "3:02 AM (Instant)",
+      fanReply: "YES, send it now.",
+      fanReplyTime: "3:03 AM",
+      sale: "$50"
+    },
+    {
+      fanMessage: "Queen, I miss you... are you there?",
+      fanTime: "2:15 AM",
+      alanaResponse: "Hey babe, I was just thinking about you. Want to see something exclusive?",
+      alanaTime: "2:15 AM (Instant)",
+      fanReply: "Yes please! 🔥",
+      fanReplyTime: "2:16 AM",
+      sale: "$75"
+    },
+    {
+      fanMessage: "Hey gorgeous, got anything new?",
+      fanTime: "11:30 PM",
+      alanaResponse: "I have something very special I recorded thinking of you... Want me to tell you more?",
+      alanaTime: "11:30 PM (Instant)",
+      fanReply: "Go ahead, send it all!",
+      fanReplyTime: "11:31 PM",
+      sale: "$100"
+    }
+  ],
+  pt: [
+    {
+      fanMessage: "Oi bb, quero te ver...",
+      fanTime: "3:02 AM",
+      alanaResponse: "Mmm, estava pensando em você. Quer ver o que estou vestindo? 😈",
+      alanaTime: "3:02 AM (Instantâneo)",
+      fanReply: "SIM, manda agora.",
+      fanReplyTime: "3:03 AM",
+      sale: "$50"
+    },
+    {
+      fanMessage: "Rainha, sinto sua falta... tá aí?",
+      fanTime: "2:15 AM",
+      alanaResponse: "Oi amor, estava pensando em você. Quer ver algo exclusivo?",
+      alanaTime: "2:15 AM (Instantâneo)",
+      fanReply: "Sim por favor! 🔥",
+      fanReplyTime: "2:16 AM",
+      sale: "$75"
+    },
+    {
+      fanMessage: "Oi linda, tem algo novo?",
+      fanTime: "11:30 PM",
+      alanaResponse: "Tenho algo muito especial que gravei pensando em você... Quer saber mais?",
+      alanaTime: "11:30 PM (Instantâneo)",
+      fanReply: "Manda tudo!",
+      fanReplyTime: "11:31 PM",
+      sale: "$100"
+    }
+  ]
+};
+
+function getCurrentLang(): Lang {
+  if (typeof document !== 'undefined') {
+    const lang = document.documentElement.dataset.lang;
+    if (lang === 'en' || lang === 'pt') return lang;
   }
-];
+  return 'es';
+}
 
 // Inline styles for the component
 const styles = `
@@ -328,6 +398,8 @@ export default function LiveChatComparison() {
   let timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   const runConversation = () => {
+    const lang = getCurrentLang();
+    const conversations = conversationsI18n[lang];
     const conv = conversations[currentConv()];
     
     // Reset
@@ -378,7 +450,9 @@ export default function LiveChatComparison() {
 
     // Step 5: Next conversation
     const t5 = setTimeout(() => {
-      setCurrentConv(prev => (prev + 1) % conversations.length);
+      const lang2 = getCurrentLang();
+      const convs = conversationsI18n[lang2];
+      setCurrentConv(prev => (prev + 1) % convs.length);
       runConversation();
     }, 8000);
     timeoutIds.push(t5);
@@ -409,15 +483,15 @@ export default function LiveChatComparison() {
           </div>
           <div class="chat-messages">
             <div class="msg msg-them">
-              <span class="msg-text">Hola bb, quiero verte...</span>
+              <span class="msg-text i18n-text" data-i18n-es="Hola bb, quiero verte..." data-i18n-en="Hey bb, I wanna see you..." data-i18n-pt="Oi bb, quero te ver...">Hola bb, quiero verte...</span>
               <span class="time-tag">3:02 AM</span>
             </div>
             <div class="msg msg-me">
-              <span class="msg-text">Hola! Perdón, estaba durmiendo.</span>
+              <span class="msg-text i18n-text" data-i18n-es="Hola! Perdón, estaba durmiendo." data-i18n-en="Hi! Sorry, I was sleeping." data-i18n-pt="Oi! Desculpa, estava dormindo.">Hola! Perdón, estaba durmiendo.</span>
               <span class="time-tag">8:45 AM</span>
             </div>
             <div class="msg msg-them">
-              <span class="msg-text">Ya se me pasaron las ganas :/</span>
+              <span class="msg-text i18n-text" data-i18n-es="Ya se me pasaron las ganas :/" data-i18n-en="I'm not in the mood anymore :/" data-i18n-pt="Já perdi a vontade :/">Ya se me pasaron las ganas :/</span>
               <span class="time-tag">8:50 AM</span>
             </div>
           </div>
@@ -458,7 +532,7 @@ export default function LiveChatComparison() {
           <div class="status-result">
             <Show when={showSuccess()} fallback={<div class="status-placeholder"></div>}>
               <span class="status-badge status-won animate-msg">
-                <span class="i18n-text" data-i18n-es="✅ Venta Cerrada" data-i18n-en="✅ Sale Closed" data-i18n-pt="✅ Venda Fechada">✅ Venta Cerrada</span> ({conversations[currentConv()].sale})
+                <span class="i18n-text" data-i18n-es="✅ Venta Cerrada" data-i18n-en="✅ Sale Closed" data-i18n-pt="✅ Venda Fechada">✅ Venta Cerrada</span> ({conversationsI18n[getCurrentLang()][currentConv()].sale})
               </span>
             </Show>
           </div>
