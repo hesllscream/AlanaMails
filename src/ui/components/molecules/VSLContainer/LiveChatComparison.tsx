@@ -437,12 +437,10 @@ export default function LiveChatComparison() {
           <div class="chat-messages">
             <For each={messages()}>
               {(message) => (
-                <Show when={message.type === 'them'}>
-                  <div class="msg msg-them animate-msg">
-                    <span class="msg-text">{message.text}</span>
-                    <span class="time-tag">{message.time}</span>
-                  </div>
-                </Show>
+                <div class={`msg animate-msg ${message.type === 'them' ? 'msg-them' : 'msg-alana'}`}>
+                  <span class="msg-text">{message.text}</span>
+                  <span class="time-tag">{message.time}</span>
+                </div>
               )}
             </For>
 
@@ -456,17 +454,6 @@ export default function LiveChatComparison() {
                 </div>
               </div>
             </Show>
-
-            <For each={messages()}>
-              {(message) => (
-                <Show when={message.type === 'alana'}>
-                  <div class="msg msg-alana animate-msg">
-                    <span class="msg-text">{message.text}</span>
-                    <span class="time-tag">{message.time}</span>
-                  </div>
-                </Show>
-              )}
-            </For>
           </div>
           <div class="status-result">
             <Show when={showSuccess()} fallback={<div class="status-placeholder"></div>}>
