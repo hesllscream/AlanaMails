@@ -294,8 +294,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
         </td>
         <td class="px-4 py-3">
           <div class="flex items-center gap-2">
-            <a href="/p/${p.slug}" target="_blank" class="text-cr-lavender hover:text-cr-pink transition-colors text-sm truncate max-w-[200px]">
-              /p/${p.slug}
+            <a href="/p?s=${p.slug}" target="_blank" class="text-cr-lavender hover:text-cr-pink transition-colors text-sm truncate max-w-[200px]">
+              /p?s=${p.slug}
             </a>
             <button onclick="copyLink('${p.slug}')" class="text-cr-muted hover:text-cr-pink transition-colors" title="Copiar link">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,7 +325,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
   // Copy link to clipboard
   (window as any).copyLink = async (slug: string) => {
-    const link = `${baseUrl}/p/${slug}`
+    const link = `${baseUrl}/p?s=${slug}`
     await navigator.clipboard.writeText(link)
     // Could add a toast notification here
   }
