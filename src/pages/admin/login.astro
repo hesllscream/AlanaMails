@@ -1,0 +1,118 @@
+---
+/**
+ * Admin Login Page
+ * Authentication for admin panel access
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Admin Login - Alana AI">
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-serif">
+          <span class="text-cr-text">Alana</span><span class="text-cr-pink">Ai</span>
+        </h1>
+        <p class="text-cr-muted mt-2">Panel de Administración</p>
+      </div>
+
+      <!-- Login Form -->
+      <div class="bg-cr-card/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+        <form id="loginForm" class="space-y-6">
+          <div>
+            <label for="email" class="block text-sm font-medium text-cr-muted mb-2">
+              Correo Electrónico
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-3 bg-cr-base/50 border border-white/10 rounded-xl text-cr-text placeholder-cr-muted/50 focus:outline-none focus:border-cr-pink/50 transition-colors"
+              placeholder="admin@alana.ai"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-cr-muted mb-2">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="w-full px-4 py-3 bg-cr-base/50 border border-white/10 rounded-xl text-cr-text placeholder-cr-muted/50 focus:outline-none focus:border-cr-pink/50 transition-colors"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <div id="errorMessage" class="hidden text-red-400 text-sm text-center"></div>
+
+          <button
+            type="submit"
+            class="w-full py-3 px-4 bg-gradient-to-r from-cr-pink to-cr-purple text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          >
+            <span id="btnText">Iniciar Sesión</span>
+            <svg id="btnSpinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <p class="text-center text-cr-muted text-sm mt-6">
+        <a href="/" class="hover:text-cr-pink transition-colors">← Volver al inicio</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { supabase } from '@/lib/supabase'
+
+  const form = document.getElementById('loginForm') as HTMLFormElement
+  const errorMessage = document.getElementById('errorMessage') as HTMLDivElement
+  const btnText = document.getElementById('btnText') as HTMLSpanElement
+  const btnSpinner = document.getElementById('btnSpinner') as HTMLElement
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    
+    const email = (document.getElementById('email') as HTMLInputElement).value
+    const password = (document.getElementById('password') as HTMLInputElement).value
+
+    // Show loading state
+    btnText.textContent = 'Ingresando...'
+    btnSpinner.classList.remove('hidden')
+    errorMessage.classList.add('hidden')
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+
+      if (error) {
+        throw error
+      }
+
+      // Redirect to dashboard on success
+      window.location.href = '/admin/dashboard'
+    } catch (error: any) {
+      errorMessage.textContent = error.message || 'Error al iniciar sesión'
+      errorMessage.classList.remove('hidden')
+      btnText.textContent = 'Iniciar Sesión'
+      btnSpinner.classList.add('hidden')
+    }
+  })
+
+  // Check if already logged in
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+      window.location.href = '/admin/dashboard'
+    }
+  })
+</script>

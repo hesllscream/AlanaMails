@@ -1,0 +1,443 @@
+---
+/**
+ * Admin Dashboard
+ * Manage prospects with CRUD operations
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Dashboard - Alana AI Admin">
+  <div class="min-h-screen py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-serif">
+            <span class="text-cr-text">Alana</span><span class="text-cr-pink">Ai</span>
+            <span class="text-cr-muted font-sans text-lg ml-2">Admin</span>
+          </h1>
+          <p class="text-cr-muted text-sm mt-1">Gestiona tus páginas personalizadas</p>
+        </div>
+        <div class="flex gap-3">
+          <button
+            id="btnNewProspect"
+            class="px-4 py-2 bg-gradient-to-r from-cr-pink to-cr-purple text-white font-medium rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Nueva Página
+          </button>
+          <button
+            id="btnLogout"
+            class="px-4 py-2 bg-cr-card/50 border border-white/10 text-cr-muted font-medium rounded-xl hover:border-cr-pink/50 hover:text-cr-text transition-all"
+          >
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-cr-card/30 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+          <p class="text-cr-muted text-sm">Total Páginas</p>
+          <p id="statTotal" class="text-2xl font-bold text-cr-text mt-1">0</p>
+        </div>
+        <div class="bg-cr-card/30 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+          <p class="text-cr-muted text-sm">Creadas Hoy</p>
+          <p id="statToday" class="text-2xl font-bold text-cr-pink mt-1">0</p>
+        </div>
+        <div class="bg-cr-card/30 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+          <p class="text-cr-muted text-sm">Esta Semana</p>
+          <p id="statWeek" class="text-2xl font-bold text-cr-purple mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Prospects Table -->
+      <div class="bg-cr-card/30 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-white/10">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar por nombre..."
+            class="w-full md:w-80 px-4 py-2 bg-cr-base/50 border border-white/10 rounded-xl text-cr-text placeholder-cr-muted/50 focus:outline-none focus:border-cr-pink/50 transition-colors"
+          />
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-white/10">
+                <th class="text-left text-cr-muted text-sm font-medium px-4 py-3">Nombre</th>
+                <th class="text-left text-cr-muted text-sm font-medium px-4 py-3">Plataforma</th>
+                <th class="text-left text-cr-muted text-sm font-medium px-4 py-3">Link</th>
+                <th class="text-left text-cr-muted text-sm font-medium px-4 py-3">Creado</th>
+                <th class="text-right text-cr-muted text-sm font-medium px-4 py-3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="prospectsTable">
+              <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-cr-muted">
+                  <div id="loadingState" class="flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Cargando...
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Create/Edit -->
+  <div id="modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="modalOverlay"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="bg-cr-card border border-white/10 rounded-2xl w-full max-w-md p-6 relative">
+        <button id="modalClose" class="absolute top-4 right-4 text-cr-muted hover:text-cr-text transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <h2 id="modalTitle" class="text-xl font-semibold text-cr-text mb-6">Nueva Página</h2>
+
+        <form id="prospectForm" class="space-y-4">
+          <input type="hidden" id="prospectId" />
+          
+          <div>
+            <label for="prospectName" class="block text-sm font-medium text-cr-muted mb-2">
+              Nombre de la Persona
+            </label>
+            <input
+              type="text"
+              id="prospectName"
+              required
+              class="w-full px-4 py-3 bg-cr-base/50 border border-white/10 rounded-xl text-cr-text placeholder-cr-muted/50 focus:outline-none focus:border-cr-pink/50 transition-colors"
+              placeholder="María García"
+            />
+          </div>
+
+          <div>
+            <label for="prospectPlatform" class="block text-sm font-medium text-cr-muted mb-2">
+              Plataforma
+            </label>
+            <select
+              id="prospectPlatform"
+              class="w-full px-4 py-3 bg-cr-base/50 border border-white/10 rounded-xl text-cr-text focus:outline-none focus:border-cr-pink/50 transition-colors"
+            >
+              <option value="OnlyFans">OnlyFans</option>
+              <option value="Fansly">Fansly</option>
+              <option value="Fanvue">Fanvue</option>
+              <option value="Patreon">Patreon</option>
+              <option value="Instagram">Instagram</option>
+              <option value="TikTok">TikTok</option>
+            </select>
+          </div>
+
+          <div id="formError" class="hidden text-red-400 text-sm"></div>
+
+          <div class="flex gap-3 pt-2">
+            <button
+              type="button"
+              id="btnCancel"
+              class="flex-1 py-3 px-4 bg-cr-base/50 border border-white/10 text-cr-muted font-medium rounded-xl hover:border-cr-pink/50 hover:text-cr-text transition-all"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="flex-1 py-3 px-4 bg-gradient-to-r from-cr-pink to-cr-purple text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
+            >
+              <span id="formBtnText">Crear</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="deleteModalOverlay"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="bg-cr-card border border-white/10 rounded-2xl w-full max-w-sm p-6 text-center">
+        <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
+          <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-cr-text mb-2">¿Eliminar página?</h3>
+        <p class="text-cr-muted text-sm mb-6">Esta acción no se puede deshacer. El link dejará de funcionar.</p>
+        <input type="hidden" id="deleteProspectId" />
+        <div class="flex gap-3">
+          <button
+            id="btnCancelDelete"
+            class="flex-1 py-2 px-4 bg-cr-base/50 border border-white/10 text-cr-muted font-medium rounded-xl hover:border-cr-pink/50 hover:text-cr-text transition-all"
+          >
+            Cancelar
+          </button>
+          <button
+            id="btnConfirmDelete"
+            class="flex-1 py-2 px-4 bg-red-500 text-white font-medium rounded-xl hover:bg-red-600 transition-colors"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { supabase, type Prospect } from '@/lib/supabase'
+
+  let prospects: Prospect[] = []
+  const baseUrl = window.location.origin
+
+  // DOM Elements
+  const prospectsTable = document.getElementById('prospectsTable') as HTMLTableSectionElement
+  const modal = document.getElementById('modal') as HTMLDivElement
+  const deleteModal = document.getElementById('deleteModal') as HTMLDivElement
+  const prospectForm = document.getElementById('prospectForm') as HTMLFormElement
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement
+
+  // Check authentication
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+      window.location.href = '/admin/login'
+      return false
+    }
+    return true
+  }
+
+  // Generate slug from name
+  function generateSlug(name: string): string {
+    const base = name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+    const random = Math.random().toString(36).substring(2, 8)
+    return `${base}-${random}`
+  }
+
+  // Format date
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
+  }
+
+  // Load prospects
+  async function loadProspects() {
+    const { data, error } = await supabase
+      .from('prospects')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error loading prospects:', error)
+      return
+    }
+
+    prospects = data || []
+    updateStats()
+    renderTable()
+  }
+
+  // Update stats
+  function updateStats() {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const weekAgo = new Date(today)
+    weekAgo.setDate(weekAgo.getDate() - 7)
+
+    const todayCount = prospects.filter(p => new Date(p.created_at) >= today).length
+    const weekCount = prospects.filter(p => new Date(p.created_at) >= weekAgo).length
+
+    document.getElementById('statTotal')!.textContent = prospects.length.toString()
+    document.getElementById('statToday')!.textContent = todayCount.toString()
+    document.getElementById('statWeek')!.textContent = weekCount.toString()
+  }
+
+  // Render table
+  function renderTable(filter = '') {
+    const filtered = filter
+      ? prospects.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+      : prospects
+
+    if (filtered.length === 0) {
+      prospectsTable.innerHTML = `
+        <tr>
+          <td colspan="5" class="px-4 py-8 text-center text-cr-muted">
+            ${filter ? 'No se encontraron resultados' : 'No hay páginas creadas. ¡Crea la primera!'}
+          </td>
+        </tr>
+      `
+      return
+    }
+
+    prospectsTable.innerHTML = filtered.map(p => `
+      <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+        <td class="px-4 py-3">
+          <span class="font-medium text-cr-text">${p.name}</span>
+        </td>
+        <td class="px-4 py-3">
+          <span class="px-2 py-1 text-xs rounded-full bg-cr-pink/20 text-cr-pink">${p.platform}</span>
+        </td>
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-2">
+            <a href="/p/${p.slug}" target="_blank" class="text-cr-lavender hover:text-cr-pink transition-colors text-sm truncate max-w-[200px]">
+              /p/${p.slug}
+            </a>
+            <button onclick="copyLink('${p.slug}')" class="text-cr-muted hover:text-cr-pink transition-colors" title="Copiar link">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+        </td>
+        <td class="px-4 py-3 text-cr-muted text-sm">${formatDate(p.created_at)}</td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex justify-end gap-2">
+            <button onclick="editProspect('${p.id}')" class="p-2 text-cr-muted hover:text-cr-lavender transition-colors" title="Editar">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </button>
+            <button onclick="deleteProspect('${p.id}')" class="p-2 text-cr-muted hover:text-red-400 transition-colors" title="Eliminar">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('')
+  }
+
+  // Copy link to clipboard
+  (window as any).copyLink = async (slug: string) => {
+    const link = `${baseUrl}/p/${slug}`
+    await navigator.clipboard.writeText(link)
+    // Could add a toast notification here
+  }
+
+  // Edit prospect
+  (window as any).editProspect = (id: string) => {
+    const prospect = prospects.find(p => p.id === id)
+    if (!prospect) return
+
+    document.getElementById('modalTitle')!.textContent = 'Editar Página'
+    document.getElementById('formBtnText')!.textContent = 'Guardar'
+    ;(document.getElementById('prospectId') as HTMLInputElement).value = id
+    ;(document.getElementById('prospectName') as HTMLInputElement).value = prospect.name
+    ;(document.getElementById('prospectPlatform') as HTMLSelectElement).value = prospect.platform
+
+    modal.classList.remove('hidden')
+  }
+
+  // Delete prospect
+  (window as any).deleteProspect = (id: string) => {
+    (document.getElementById('deleteProspectId') as HTMLInputElement).value = id
+    deleteModal.classList.remove('hidden')
+  }
+
+  // Modal controls
+  document.getElementById('btnNewProspect')!.addEventListener('click', () => {
+    document.getElementById('modalTitle')!.textContent = 'Nueva Página'
+    document.getElementById('formBtnText')!.textContent = 'Crear'
+    prospectForm.reset()
+    ;(document.getElementById('prospectId') as HTMLInputElement).value = ''
+    modal.classList.remove('hidden')
+  })
+
+  document.getElementById('modalClose')!.addEventListener('click', () => modal.classList.add('hidden'))
+  document.getElementById('modalOverlay')!.addEventListener('click', () => modal.classList.add('hidden'))
+  document.getElementById('btnCancel')!.addEventListener('click', () => modal.classList.add('hidden'))
+
+  document.getElementById('deleteModalOverlay')!.addEventListener('click', () => deleteModal.classList.add('hidden'))
+  document.getElementById('btnCancelDelete')!.addEventListener('click', () => deleteModal.classList.add('hidden'))
+
+  // Form submit
+  prospectForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    
+    const id = (document.getElementById('prospectId') as HTMLInputElement).value
+    const name = (document.getElementById('prospectName') as HTMLInputElement).value
+    const platform = (document.getElementById('prospectPlatform') as HTMLSelectElement).value
+    const formError = document.getElementById('formError') as HTMLDivElement
+
+    formError.classList.add('hidden')
+
+    try {
+      if (id) {
+        // Update
+        const { error } = await supabase
+          .from('prospects')
+          .update({ name, platform })
+          .eq('id', id)
+
+        if (error) throw error
+      } else {
+        // Create
+        const slug = generateSlug(name)
+        const { error } = await supabase
+          .from('prospects')
+          .insert({ name, platform, slug })
+
+        if (error) throw error
+      }
+
+      modal.classList.add('hidden')
+      await loadProspects()
+    } catch (error: any) {
+      formError.textContent = error.message || 'Error al guardar'
+      formError.classList.remove('hidden')
+    }
+  })
+
+  // Confirm delete
+  document.getElementById('btnConfirmDelete')!.addEventListener('click', async () => {
+    const id = (document.getElementById('deleteProspectId') as HTMLInputElement).value
+    
+    try {
+      const { error } = await supabase
+        .from('prospects')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw error
+
+      deleteModal.classList.add('hidden')
+      await loadProspects()
+    } catch (error) {
+      console.error('Error deleting:', error)
+    }
+  })
+
+  // Search
+  searchInput.addEventListener('input', (e) => {
+    renderTable((e.target as HTMLInputElement).value)
+  })
+
+  // Logout
+  document.getElementById('btnLogout')!.addEventListener('click', async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/admin/login'
+  })
+
+  // Initialize
+  ;(async () => {
+    if (await checkAuth()) {
+      await loadProspects()
+    }
+  })()
+</script>
