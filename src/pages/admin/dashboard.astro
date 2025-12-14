@@ -237,19 +237,37 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
   // Load prospects
   async function loadProspects() {
-    const { data, error } = await supabase
-      .from('prospects')
-      .select('*')
-      .order('created_at', { ascending: false })
+    try {
+      const { data, error } = await supabase
+        .from('prospects')
+        .select('*')
+        .order('created_at', { ascending: false })
 
-    if (error) {
-      console.error('Error loading prospects:', error)
-      return
+      if (error) {
+        console.error('Error loading prospects:', error)
+        prospectsTable.innerHTML = `
+          <tr>
+            <td colspan="5" class="px-4 py-8 text-center text-red-400">
+              Error: ${error.message || 'No se pudo cargar la tabla. ¿Ejecutaste el SQL en Supabase?'}
+            </td>
+          </tr>
+        `
+        return
+      }
+
+      prospects = data || []
+      updateStats()
+      renderTable()
+    } catch (err: any) {
+      console.error('Error:', err)
+      prospectsTable.innerHTML = `
+        <tr>
+          <td colspan="5" class="px-4 py-8 text-center text-red-400">
+            Error de conexión: ${err.message || 'Verifica tu configuración de Supabase'}
+          </td>
+        </tr>
+      `
     }
-
-    prospects = data || []
-    updateStats()
-    renderTable()
   }
 
   // Update stats
