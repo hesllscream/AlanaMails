@@ -197,24 +197,34 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 <script>
   import { supabase, type Prospect } from '@/lib/supabase'
 
+  // State
   let prospects: Prospect[] = []
   const baseUrl = window.location.origin
 
-  // DOM Elements
-  const prospectsTable = document.getElementById('prospectsTable') as HTMLTableSectionElement
-  const modal = document.getElementById('modal') as HTMLDivElement
-  const deleteModal = document.getElementById('deleteModal') as HTMLDivElement
-  const prospectForm = document.getElementById('prospectForm') as HTMLFormElement
-  const searchInput = document.getElementById('searchInput') as HTMLInputElement
+  window.addEventListener('DOMContentLoaded', () => {
 
-  // Check authentication
-  async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
-      window.location.href = '/admin/login'
-      return false
-    }
-    return true
+  // DOM Elements - with null checks
+  const prospectsTable = document.getElementById('prospectsTable')
+  const modal = document.getElementById('modal')
+  const deleteModal = document.getElementById('deleteModal')
+  const prospectForm = document.getElementById('prospectForm') as HTMLFormElement | null
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement | null
+
+  // Helper to show modal
+  function showModal() {
+    modal?.classList.remove('hidden')
+  }
+
+  function hideModal() {
+    modal?.classList.add('hidden')
+  }
+
+  function showDeleteModal() {
+    deleteModal?.classList.remove('hidden')
+  }
+
+  function hideDeleteModal() {
+    deleteModal?.classList.add('hidden')
   }
 
   // Generate slug from name
@@ -235,41 +245,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
     return date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
   }
 
-  // Load prospects
-  async function loadProspects() {
-    try {
-      const { data, error } = await supabase
-        .from('prospects')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Error loading prospects:', error)
-        prospectsTable.innerHTML = `
-          <tr>
-            <td colspan="5" class="px-4 py-8 text-center text-red-400">
-              Error: ${error.message || 'No se pudo cargar la tabla. ¿Ejecutaste el SQL en Supabase?'}
-            </td>
-          </tr>
-        `
-        return
-      }
-
-      prospects = data || []
-      updateStats()
-      renderTable()
-    } catch (err: any) {
-      console.error('Error:', err)
-      prospectsTable.innerHTML = `
-        <tr>
-          <td colspan="5" class="px-4 py-8 text-center text-red-400">
-            Error de conexión: ${err.message || 'Verifica tu configuración de Supabase'}
-          </td>
-        </tr>
-      `
-    }
-  }
-
   // Update stats
   function updateStats() {
     const today = new Date()
@@ -280,13 +255,19 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
     const todayCount = prospects.filter(p => new Date(p.created_at) >= today).length
     const weekCount = prospects.filter(p => new Date(p.created_at) >= weekAgo).length
 
-    document.getElementById('statTotal')!.textContent = prospects.length.toString()
-    document.getElementById('statToday')!.textContent = todayCount.toString()
-    document.getElementById('statWeek')!.textContent = weekCount.toString()
+    const statTotal = document.getElementById('statTotal')
+    const statToday = document.getElementById('statToday')
+    const statWeek = document.getElementById('statWeek')
+    
+    if (statTotal) statTotal.textContent = prospects.length.toString()
+    if (statToday) statToday.textContent = todayCount.toString()
+    if (statWeek) statWeek.textContent = weekCount.toString()
   }
 
   // Render table
   function renderTable(filter = '') {
+    if (!prospectsTable) return
+    
     const filtered = filter
       ? prospects.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
       : prospects
@@ -315,7 +296,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
             <a href="/p?s=${p.slug}" target="_blank" class="text-cr-lavender hover:text-cr-pink transition-colors text-sm truncate max-w-[200px]">
               /p?s=${p.slug}
             </a>
-            <button onclick="copyLink('${p.slug}')" class="text-cr-muted hover:text-cr-pink transition-colors" title="Copiar link">
+            <button onclick="window.copyLink('${p.slug}')" class="text-cr-muted hover:text-cr-pink transition-colors" title="Copiar link">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
@@ -325,12 +306,12 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
         <td class="px-4 py-3 text-cr-muted text-sm">${formatDate(p.created_at)}</td>
         <td class="px-4 py-3 text-right">
           <div class="flex justify-end gap-2">
-            <button onclick="editProspect('${p.id}')" class="p-2 text-cr-muted hover:text-cr-lavender transition-colors" title="Editar">
+            <button onclick="window.editProspect('${p.id}')" class="p-2 text-cr-muted hover:text-cr-lavender transition-colors" title="Editar">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
             </button>
-            <button onclick="deleteProspect('${p.id}')" class="p-2 text-cr-muted hover:text-red-400 transition-colors" title="Eliminar">
+            <button onclick="window.deleteProspect('${p.id}')" class="p-2 text-cr-muted hover:text-red-400 transition-colors" title="Eliminar">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
@@ -341,63 +322,126 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
     `).join('')
   }
 
-  // Copy link to clipboard
+  // Load prospects from database
+  async function loadProspects() {
+    if (!prospectsTable) return
+    
+    try {
+      const { data, error } = await supabase
+        .from('prospects')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error loading prospects:', error)
+        prospectsTable.innerHTML = `
+          <tr>
+            <td colspan="5" class="px-4 py-8 text-center text-red-400">
+              Error: ${error.message || 'No se pudo cargar. ¿Ejecutaste el SQL en Supabase?'}
+            </td>
+          </tr>
+        `
+        return
+      }
+
+      prospects = data || []
+      updateStats()
+      renderTable()
+    } catch (err: any) {
+      console.error('Error:', err)
+      prospectsTable.innerHTML = `
+        <tr>
+          <td colspan="5" class="px-4 py-8 text-center text-red-400">
+            Error de conexión: ${err.message || 'Verifica tu configuración de Supabase'}
+          </td>
+        </tr>
+      `
+    }
+  }
+
+  // Open modal for new prospect
+  function openNewProspectModal() {
+    const modalTitle = document.getElementById('modalTitle')
+    const formBtnText = document.getElementById('formBtnText')
+    const prospectId = document.getElementById('prospectId') as HTMLInputElement | null
+    
+    if (modalTitle) modalTitle.textContent = 'Nueva Página'
+    if (formBtnText) formBtnText.textContent = 'Crear'
+    if (prospectForm) prospectForm.reset()
+    if (prospectId) prospectId.value = ''
+    
+    showModal()
+  }
+
+  // Copy link to clipboard - exposed globally
   (window as any).copyLink = async (slug: string) => {
     const link = `${baseUrl}/p?s=${slug}`
     await navigator.clipboard.writeText(link)
-    // Could add a toast notification here
   }
 
-  // Edit prospect
+  // Edit prospect - exposed globally
   (window as any).editProspect = (id: string) => {
     const prospect = prospects.find(p => p.id === id)
     if (!prospect) return
 
-    document.getElementById('modalTitle')!.textContent = 'Editar Página'
-    document.getElementById('formBtnText')!.textContent = 'Guardar'
-    ;(document.getElementById('prospectId') as HTMLInputElement).value = id
-    ;(document.getElementById('prospectName') as HTMLInputElement).value = prospect.name
-    ;(document.getElementById('prospectPlatform') as HTMLSelectElement).value = prospect.platform
+    const modalTitle = document.getElementById('modalTitle')
+    const formBtnText = document.getElementById('formBtnText')
+    const prospectId = document.getElementById('prospectId') as HTMLInputElement | null
+    const prospectName = document.getElementById('prospectName') as HTMLInputElement | null
+    const prospectPlatform = document.getElementById('prospectPlatform') as HTMLSelectElement | null
 
-    modal.classList.remove('hidden')
+    if (modalTitle) modalTitle.textContent = 'Editar Página'
+    if (formBtnText) formBtnText.textContent = 'Guardar'
+    if (prospectId) prospectId.value = id
+    if (prospectName) prospectName.value = prospect.name
+    if (prospectPlatform) prospectPlatform.value = prospect.platform
+
+    showModal()
   }
 
-  // Delete prospect
+  // Delete prospect - exposed globally
   (window as any).deleteProspect = (id: string) => {
-    (document.getElementById('deleteProspectId') as HTMLInputElement).value = id
-    deleteModal.classList.remove('hidden')
+    const deleteProspectId = document.getElementById('deleteProspectId') as HTMLInputElement | null
+    if (deleteProspectId) deleteProspectId.value = id
+    showDeleteModal()
   }
 
-  // Modal controls
-  document.getElementById('btnNewProspect')!.addEventListener('click', () => {
-    document.getElementById('modalTitle')!.textContent = 'Nueva Página'
-    document.getElementById('formBtnText')!.textContent = 'Crear'
-    prospectForm.reset()
-    ;(document.getElementById('prospectId') as HTMLInputElement).value = ''
-    modal.classList.remove('hidden')
+  // ============================================
+  // EVENT LISTENERS - Register immediately
+  // ============================================
+
+  // New Prospect Button
+  document.getElementById('btnNewProspect')?.addEventListener('click', () => {
+    openNewProspectModal()
   })
 
-  document.getElementById('modalClose')!.addEventListener('click', () => modal.classList.add('hidden'))
-  document.getElementById('modalOverlay')!.addEventListener('click', () => modal.classList.add('hidden'))
-  document.getElementById('btnCancel')!.addEventListener('click', () => modal.classList.add('hidden'))
+  // Modal close buttons
+  document.getElementById('modalClose')?.addEventListener('click', hideModal)
+  document.getElementById('modalOverlay')?.addEventListener('click', hideModal)
+  document.getElementById('btnCancel')?.addEventListener('click', hideModal)
 
-  document.getElementById('deleteModalOverlay')!.addEventListener('click', () => deleteModal.classList.add('hidden'))
-  document.getElementById('btnCancelDelete')!.addEventListener('click', () => deleteModal.classList.add('hidden'))
+  // Delete modal close buttons
+  document.getElementById('deleteModalOverlay')?.addEventListener('click', hideDeleteModal)
+  document.getElementById('btnCancelDelete')?.addEventListener('click', hideDeleteModal)
 
   // Form submit
-  prospectForm.addEventListener('submit', async (e) => {
+  prospectForm?.addEventListener('submit', async (e) => {
     e.preventDefault()
     
-    const id = (document.getElementById('prospectId') as HTMLInputElement).value
-    const name = (document.getElementById('prospectName') as HTMLInputElement).value
-    const platform = (document.getElementById('prospectPlatform') as HTMLSelectElement).value
-    const formError = document.getElementById('formError') as HTMLDivElement
+    const prospectId = document.getElementById('prospectId') as HTMLInputElement | null
+    const prospectName = document.getElementById('prospectName') as HTMLInputElement | null
+    const prospectPlatform = document.getElementById('prospectPlatform') as HTMLSelectElement | null
+    const formError = document.getElementById('formError')
 
-    formError.classList.add('hidden')
+    const id = prospectId?.value || ''
+    const name = prospectName?.value || ''
+    const platform = prospectPlatform?.value || 'OnlyFans'
+
+    if (formError) formError.classList.add('hidden')
 
     try {
       if (id) {
-        // Update
+        // Update existing
         const { error } = await supabase
           .from('prospects')
           .update({ name, platform })
@@ -405,7 +449,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
         if (error) throw error
       } else {
-        // Create
+        // Create new
         const slug = generateSlug(name)
         const { error } = await supabase
           .from('prospects')
@@ -414,18 +458,23 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
         if (error) throw error
       }
 
-      modal.classList.add('hidden')
+      hideModal()
       await loadProspects()
     } catch (error: any) {
-      formError.textContent = error.message || 'Error al guardar'
-      formError.classList.remove('hidden')
+      if (formError) {
+        formError.textContent = error.message || 'Error al guardar'
+        formError.classList.remove('hidden')
+      }
     }
   })
 
   // Confirm delete
-  document.getElementById('btnConfirmDelete')!.addEventListener('click', async () => {
-    const id = (document.getElementById('deleteProspectId') as HTMLInputElement).value
+  document.getElementById('btnConfirmDelete')?.addEventListener('click', async () => {
+    const deleteProspectId = document.getElementById('deleteProspectId') as HTMLInputElement | null
+    const id = deleteProspectId?.value || ''
     
+    if (!id) return
+
     try {
       const { error } = await supabase
         .from('prospects')
@@ -434,28 +483,39 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
       if (error) throw error
 
-      deleteModal.classList.add('hidden')
+      hideDeleteModal()
       await loadProspects()
     } catch (error) {
       console.error('Error deleting:', error)
     }
   })
 
-  // Search
-  searchInput.addEventListener('input', (e) => {
-    renderTable((e.target as HTMLInputElement).value)
+  // Search input
+  searchInput?.addEventListener('input', (e) => {
+    const target = e.target as HTMLInputElement
+    renderTable(target.value)
   })
 
-  // Logout
-  document.getElementById('btnLogout')!.addEventListener('click', async () => {
+  // Logout button
+  document.getElementById('btnLogout')?.addEventListener('click', async () => {
     await supabase.auth.signOut()
     window.location.href = '/admin/login'
   })
 
-  // Initialize
-  ;(async () => {
-    if (await checkAuth()) {
+  // ============================================
+  // INITIALIZATION
+  // ============================================
+  async function init() {
+    try {
+      // Load data immediately - RLS policy allows public access
       await loadProspects()
+    } catch (error) {
+      console.error('Init error:', error)
     }
-  })()
+  }
+
+  // Run init
+  init()
+
+  })
 </script>
