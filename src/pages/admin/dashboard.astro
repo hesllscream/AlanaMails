@@ -507,10 +507,21 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
   // ============================================
   async function init() {
     try {
-      // Load data immediately - RLS policy allows public access
+      // Check authentication first
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        // No session - redirect to login
+        window.location.href = '/admin/login'
+        return
+      }
+
+      // User is authenticated - load data
       await loadProspects()
     } catch (error) {
       console.error('Init error:', error)
+      // If auth check fails, redirect to login
+      window.location.href = '/admin/login'
     }
   }
 
